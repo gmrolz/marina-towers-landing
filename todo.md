@@ -26,3 +26,8 @@
 
 - [x] Fix hero section mobile CSS (overflow, font sizes, countdown, key numbers)
 - [x] Fix mobile layout issues across all sections
+
+- [x] Remove MBTI "Tailored For You" personality section entirely
+- [x] Audit and fix all conversion-killing mistakes (over-qualification, friction, trust gaps)
+- [x] Redesign qualification flow: qualify without pushing leads away
+- [x] Reference Tatweer Misr site style and structure improvements

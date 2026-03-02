@@ -80,54 +80,6 @@ const GALLERY = [
   { src: IMAGES.aerialYachts, label: "Red Sea Lifestyle", desc: "Sailing, diving, and water sports year-round" },
 ];
 
-// ─── Personality Profiles ─────────────────────────────────────────────────────
-const PERSONALITIES = [
-  {
-    type: "achiever",
-    mbti: "ENTJ",
-    icon: "🏆",
-    title: "The Achiever",
-    tagline: "Your success deserves an address that matches it.",
-    message: "Marina Towers is not just a home — it is a statement. Managed by Marriott, delivering year-round rental yields, and positioned at the apex of Egypt's most prestigious address. Your portfolio deserves this.",
-    cta: "See Investment Returns",
-    color: "from-gold-600/20 to-gold-400/5",
-    borderColor: "border-gold-500/30",
-  },
-  {
-    type: "visionary",
-    mbti: "INTJ",
-    icon: "🔭",
-    title: "The Visionary",
-    tagline: "The future of Egyptian real estate is already here.",
-    message: "45 minutes from the New Administrative Capital. Galala Mountain's first-of-its-kind development. Tatweer Misr's track record of 100% delivery. This is the strategic acquisition that defines the next decade.",
-    cta: "Explore the Vision",
-    color: "from-blue-900/30 to-blue-800/5",
-    borderColor: "border-blue-500/30",
-  },
-  {
-    type: "security",
-    mbti: "ISFJ",
-    icon: "🛡️",
-    title: "The Protector",
-    tagline: "The safest investment is the one backed by proven excellence.",
-    message: "Tatweer Misr has never missed a delivery. Marriott's hospitality management ensures professional oversight. Full legal protection, 24/7 hospital on-site, international schools — everything your family needs, secured.",
-    cta: "Learn About Security",
-    color: "from-emerald-900/20 to-emerald-800/5",
-    borderColor: "border-emerald-500/30",
-  },
-  {
-    type: "explorer",
-    mbti: "ENFP",
-    icon: "🌊",
-    title: "The Explorer",
-    tagline: "Wake up to the Red Sea. Every single day.",
-    message: "Imagine your morning: coffee on a panoramic balcony, the Red Sea shimmering below, your yacht waiting at the marina. Galala Mountain behind you, the horizon before you. This is not a vacation — this is your life.",
-    cta: "Feel the Lifestyle",
-    color: "from-cyan-900/20 to-cyan-800/5",
-    borderColor: "border-cyan-500/30",
-  },
-];
-
 // ─── Pricing Calculator ───────────────────────────────────────────────────────
 function PricingCalculator() {
   const [price, setPrice] = useState(9000000);
@@ -181,21 +133,15 @@ function PricingCalculator() {
 
 // ─── Popup Form Types ─────────────────────────────────────────────────────────
 type FormData = {
-  motivation: string;
-  lifestyle: string;
-  budgetRange: string;
-  unitType: string;
-  eoiReadiness: string;
-  timeline: string;
   name: string;
   phone: string;
   email: string;
-  agreeToContact: boolean;
+  unitType: string;
+  timeline: string;
 };
 
 const INITIAL_FORM: FormData = {
-  motivation: "", lifestyle: "", budgetRange: "", unitType: "",
-  eoiReadiness: "", timeline: "", name: "", phone: "", email: "", agreeToContact: false,
+  name: "", phone: "", email: "", unitType: "", timeline: "",
 };
 
 // ─── Popup Multi-Step Form ────────────────────────────────────────────────────
@@ -208,19 +154,21 @@ function LaunchPopup({
   isSubmitting: boolean;
   isSubmitted: boolean;
   formData: FormData;
-  updateForm: (field: keyof FormData, value: string | boolean) => void;
+  updateForm: (field: keyof FormData, value: string) => void;
 }) {
   const [step, setStep] = useState(0);
   const TOTAL_STEPS = 3;
 
-  // Reset step when popup opens
   useEffect(() => { if (isOpen) setStep(0); }, [isOpen]);
 
-  const canAdvanceStep0 = formData.motivation && formData.lifestyle;
-  const canAdvanceStep1 = formData.budgetRange && formData.eoiReadiness && formData.timeline;
-  const canSubmit = formData.name && formData.phone && formData.agreeToContact;
+  // Step 0: Contact details — always capturable
+  const canAdvanceStep0 = formData.name.trim().length >= 2 && formData.phone.trim().length >= 8;
+  // Step 1: Soft qualification — optional but helpful
+  const canAdvanceStep1 = true; // never block on soft qualification
 
   if (!isOpen) return null;
+
+  const STEP_LABELS = ["Your Details", "Your Preference", "Confirmed"];
 
   return (
     <AnimatePresence>
@@ -233,14 +181,13 @@ function LaunchPopup({
         onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 30 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="relative w-full sm:max-w-lg max-h-[92dvh] overflow-y-auto glass-card rounded-t-2xl sm:rounded-2xl gold-glow"
           style={{ border: "1px solid oklch(76% 0.14 85 / 0.3)" }}
         >
-          {/* Close button */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-cream-50 transition-colors"
@@ -249,10 +196,12 @@ function LaunchPopup({
             ✕
           </button>
 
-          <div className="p-4 md:p-8">
+          <div className="p-5 md:p-8">
             {isSubmitted ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
-                <div className="text-5xl mb-4">✦</div>
+                <div className="w-16 h-16 rounded-full bg-gold-400/10 border border-gold-400/30 flex items-center justify-center mx-auto mb-5">
+                  <span className="text-gold-300 font-serif text-2xl">✦</span>
+                </div>
                 <h3 className="font-serif text-3xl text-gold-300 mb-3">Invitation Confirmed</h3>
                 <div className="divider-gold max-w-xs mx-auto mb-4" />
                 <p className="text-cream-200 font-sans text-sm leading-relaxed mb-6">
@@ -262,12 +211,12 @@ function LaunchPopup({
                   <p className="text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">What Happens Next</p>
                   {[
                     "Personal call from your Marina Towers advisor",
-                    "Exclusive digital brochure & unit availability preview",
+                    "Exclusive digital brochure and unit availability preview",
                     "Priority invitation to the March 15 launch event",
                     "First right of refusal on your preferred unit",
                   ].map((s, i) => (
                     <div key={i} className="flex items-start gap-3 mb-2">
-                      <span className="text-gold-400 text-xs mt-0.5 font-sans">0{i + 1}</span>
+                      <span className="text-gold-400 text-xs mt-0.5 font-sans font-medium">0{i + 1}</span>
                       <span className="text-cream-200 text-xs font-sans">{s}</span>
                     </div>
                   ))}
@@ -276,77 +225,94 @@ function LaunchPopup({
             ) : (
               <>
                 {/* Header */}
-                <div className="text-center mb-6">
-                  <img src={IMAGES.logoTower} alt="Marina Towers" className="h-12 w-auto mx-auto mb-3 opacity-90" />
+                <div className="text-center mb-5">
+                  <img src={IMAGES.logoTower} alt="Marina Towers" className="h-10 w-auto mx-auto mb-3 opacity-90" />
                   <p className="text-[10px] tracking-[0.3em] uppercase text-gold-400 font-sans mb-1">Exclusive Launch Event · March 15, 2026</p>
-                  <h2 className="font-serif text-2xl text-cream-50">Secure Your Seat</h2>
+                  <h2 className="font-serif text-xl text-cream-50">Secure Your Seat</h2>
                 </div>
 
-                {/* Step Indicators */}
-                <div className="flex items-center gap-2 mb-2">
+                {/* Step Progress */}
+                <div className="flex items-center gap-2 mb-1">
                   {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1 flex-1 rounded-full transition-all duration-500 ${i <= step ? "bg-gold-400" : "bg-navy-700"}`}
+                      className={`h-0.5 flex-1 rounded-full transition-all duration-500 ${i <= step ? "bg-gold-400" : "bg-navy-700"}`}
                     />
                   ))}
                 </div>
-                <p className="text-[10px] tracking-widest uppercase text-muted-foreground font-sans mb-6">
-                  Step {step + 1} of {TOTAL_STEPS} — {["Your Vision", "Your Capacity", "Your Details"][step]}
+                <p className="text-[10px] tracking-widest uppercase text-muted-foreground font-sans mb-5">
+                  Step {step + 1} of {TOTAL_STEPS} — {STEP_LABELS[step]}
                 </p>
 
                 <AnimatePresence mode="wait">
-                  {/* ── Step 0: Desire + Need ── */}
+
+                  {/* ── Step 0: Contact Details (capture first) ── */}
                   {step === 0 && (
                     <motion.div key="s0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <div className="mb-5">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">What drives your interest?</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { value: "investment", label: "📈 Investment Returns" },
-                            { value: "lifestyle", label: "🌊 Luxury Lifestyle" },
-                            { value: "residence", label: "🏠 Primary Residence" },
-                            { value: "legacy", label: "👨‍👩‍👧 Family Legacy" },
-                          ].map((opt) => (
-                            <button
-                              key={opt.value}
-                              onClick={() => updateForm("motivation", opt.value)}
-                              className={`p-3 rounded-lg border text-xs font-sans text-left transition-all ${formData.motivation === opt.value ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
+                      <p className="text-cream-200 text-xs font-sans mb-5 leading-relaxed">
+                        Reserve your seat at the Marina Towers launch event. A dedicated advisor will contact you personally within 24 hours.
+                      </p>
+                      <div className="space-y-4 mb-5">
+                        <div>
+                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">Full Name *</label>
+                          <input
+                            type="text"
+                            value={formData.name}
+                            onChange={(e) => updateForm("name", e.target.value)}
+                            placeholder="Your full name"
+                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">Phone Number *</label>
+                          <input
+                            type="tel"
+                            value={formData.phone}
+                            onChange={(e) => updateForm("phone", e.target.value)}
+                            placeholder="+20 1XX XXX XXXX"
+                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">
+                            Email Address <span className="text-muted-foreground normal-case tracking-normal">(optional)</span>
+                          </label>
+                          <input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => updateForm("email", e.target.value)}
+                            placeholder="your@email.com"
+                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
+                          />
                         </div>
                       </div>
+                      <button
+                        onClick={() => canAdvanceStep0 ? setStep(1) : toast.error("Please enter your name and phone number.")}
+                        className="btn-gold w-full py-3 rounded-full text-sm tracking-widest"
+                      >
+                        Continue
+                      </button>
+                      <p className="text-center text-[10px] text-muted-foreground font-sans mt-3">
+                        Your information is kept strictly confidential.
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {/* ── Step 1: Soft Qualification ── */}
+                  {step === 1 && (
+                    <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <p className="text-cream-200 text-xs font-sans mb-5 leading-relaxed">
+                        Help your advisor prepare the right information for your call. These selections are optional.
+                      </p>
 
                       <div className="mb-5">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">What excites you most?</label>
-                        <div className="grid grid-cols-1 gap-2">
-                          {[
-                            { value: "yacht", label: "🛥️ Yacht club & Red Sea sailing" },
-                            { value: "resort", label: "🏨 Marriott resort-style living" },
-                            { value: "views", label: "🏔️ Panoramic mountain & sea views" },
-                            { value: "community", label: "🏫 Schools, hospital & full community" },
-                          ].map((opt) => (
-                            <button
-                              key={opt.value}
-                              onClick={() => updateForm("lifestyle", opt.value)}
-                              className={`p-3 rounded-lg border text-xs font-sans text-left transition-all ${formData.lifestyle === opt.value ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="mb-5">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">Preferred unit size</label>
+                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">Unit type of interest</label>
                         <div className="grid grid-cols-3 gap-2">
-                          {["Studio", "1 Bed", "2 Bed", "3 Bed", "4 Bed", "Penthouse"].map((type) => (
+                          {["Studio", "1 Bedroom", "2 Bedrooms", "3 Bedrooms", "4 Bedrooms", "Penthouse"].map((type) => (
                             <button
                               key={type}
-                              onClick={() => updateForm("unitType", type)}
-                              className={`p-2 rounded-lg border text-xs font-sans text-center transition-all ${formData.unitType === type ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
+                              onClick={() => updateForm("unitType", formData.unitType === type ? "" : type)}
+                              className={`p-2.5 rounded-lg border text-xs font-sans text-center transition-all ${formData.unitType === type ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
                             >
                               {type}
                             </button>
@@ -354,71 +320,18 @@ function LaunchPopup({
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => canAdvanceStep0 ? setStep(1) : toast.error("Please select your motivation and lifestyle preference.")}
-                        className="btn-gold w-full py-3 rounded-full text-sm tracking-widest"
-                      >
-                        Continue →
-                      </button>
-                    </motion.div>
-                  )}
-
-                  {/* ── Step 1: Ability ── */}
-                  {step === 1 && (
-                    <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <div className="mb-5">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">Your budget range</label>
-                        <div className="grid grid-cols-1 gap-2">
-                          {[
-                            { value: "9-12m", label: "9M – 12M EGP", desc: "1–2 bedroom units" },
-                            { value: "12-18m", label: "12M – 18M EGP", desc: "2–3 bedroom units" },
-                            { value: "18-25m", label: "18M – 25M EGP", desc: "3–4 bedroom units" },
-                            { value: "25m+", label: "25M EGP+", desc: "Penthouse & premium floors" },
-                          ].map((opt) => (
-                            <button
-                              key={opt.value}
-                              onClick={() => updateForm("budgetRange", opt.value)}
-                              className={`p-3 rounded-lg border text-xs font-sans text-left flex justify-between items-center transition-all ${formData.budgetRange === opt.value ? "border-gold-400 bg-gold-400/10" : "border-navy-600 bg-navy-800/50 hover:border-gold-400/40"}`}
-                            >
-                              <span className={formData.budgetRange === opt.value ? "text-gold-300" : "text-cream-200"}>{opt.label}</span>
-                              <span className="text-muted-foreground text-[10px]">{opt.desc}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="mb-5">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">EOI readiness (200K EGP)</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { value: "ready_now", label: "Ready now" },
-                            { value: "ready_2weeks", label: "Within 2 weeks" },
-                            { value: "ready_month", label: "Within a month" },
-                            { value: "need_info", label: "Need more info" },
-                          ].map((opt) => (
-                            <button
-                              key={opt.value}
-                              onClick={() => updateForm("eoiReadiness", opt.value)}
-                              className={`p-3 rounded-lg border text-xs font-sans text-left transition-all ${formData.eoiReadiness === opt.value ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
                       <div className="mb-6">
-                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">When do you plan to buy?</label>
+                        <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">When are you planning to buy?</label>
                         <div className="grid grid-cols-2 gap-2">
                           {[
                             { value: "launch", label: "At the March 15 Launch" },
-                            { value: "q2_2026", label: "Q2 2026" },
+                            { value: "q2_2026", label: "Within Q2 2026" },
                             { value: "year", label: "Within This Year" },
                             { value: "exploring", label: "Still Exploring" },
                           ].map((opt) => (
                             <button
                               key={opt.value}
-                              onClick={() => updateForm("timeline", opt.value)}
+                              onClick={() => updateForm("timeline", formData.timeline === opt.value ? "" : opt.value)}
                               className={`p-3 rounded-lg border text-xs font-sans text-left transition-all ${formData.timeline === opt.value ? "border-gold-400 bg-gold-400/10 text-gold-300" : "border-navy-600 bg-navy-800/50 text-cream-200 hover:border-gold-400/40"}`}
                             >
                               {opt.label}
@@ -428,77 +341,50 @@ function LaunchPopup({
                       </div>
 
                       <div className="flex gap-3">
-                        <button onClick={() => setStep(0)} className="btn-outline-gold flex-1 py-3 rounded-full text-sm tracking-widest">← Back</button>
+                        <button onClick={() => setStep(0)} className="btn-outline-gold flex-1 py-3 rounded-full text-sm tracking-widest">Back</button>
                         <button
-                          onClick={() => canAdvanceStep1 ? setStep(2) : toast.error("Please complete all fields.")}
+                          onClick={() => setStep(2)}
                           className="btn-gold flex-1 py-3 rounded-full text-sm tracking-widest"
                         >
-                          Continue →
+                          Confirm My Seat
                         </button>
                       </div>
-                    </motion.div>
-                  )}
-
-                  {/* ── Step 2: Contact ── */}
-                  {step === 2 && (
-                    <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <p className="text-muted-foreground text-xs font-sans mb-5">
-                        A dedicated Marina Towers advisor will call you personally within 24 hours to confirm your seat.
+                      <p className="text-center text-[10px] text-muted-foreground font-sans mt-3">
+                        You can skip this step — your advisor will discuss details on the call.
                       </p>
+                    </motion.div>
+                  )}
 
-                      <div className="space-y-4 mb-5">
-                        <div>
-                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">Full Name *</label>
-                          <input
-                            type="text" value={formData.name}
-                            onChange={(e) => updateForm("name", e.target.value)}
-                            placeholder="Your full name"
-                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
-                          />
+                  {/* ── Step 2: Submit ── */}
+                  {step === 2 && (
+                    <motion.div
+                      key="s2"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      onAnimationComplete={() => {
+                        if (!isSubmitting) onSubmit();
+                      }}
+                    >
+                      <div className="text-center py-4">
+                        <div className="w-12 h-12 rounded-full bg-gold-400/10 border border-gold-400/30 flex items-center justify-center mx-auto mb-4">
+                          <span className="text-gold-300 font-serif text-lg">✦</span>
                         </div>
-                        <div>
-                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">Phone Number *</label>
-                          <input
-                            type="tel" value={formData.phone}
-                            onChange={(e) => updateForm("phone", e.target.value)}
-                            placeholder="+20 1XX XXX XXXX"
-                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
-                          />
+                        <p className="text-cream-200 text-sm font-sans mb-4">Reserving your seat...</p>
+                        <div className="flex justify-center gap-1">
+                          {[0, 1, 2].map((i) => (
+                            <motion.div
+                              key={i}
+                              className="w-2 h-2 rounded-full bg-gold-400"
+                              animate={{ opacity: [0.3, 1, 0.3] }}
+                              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                            />
+                          ))}
                         </div>
-                        <div>
-                          <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-2">Email Address</label>
-                          <input
-                            type="email" value={formData.email}
-                            onChange={(e) => updateForm("email", e.target.value)}
-                            placeholder="your@email.com"
-                            className="luxury-input w-full px-4 py-3 rounded-lg text-sm font-sans"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3 mb-5">
-                        <input
-                          type="checkbox" id="agree" checked={formData.agreeToContact}
-                          onChange={(e) => updateForm("agreeToContact", e.target.checked)}
-                          className="mt-0.5 accent-gold-400"
-                        />
-                        <label htmlFor="agree" className="text-xs text-muted-foreground font-sans leading-relaxed cursor-pointer">
-                          I agree to be contacted by the Marina Towers sales team. My information will be kept confidential.
-                        </label>
-                      </div>
-
-                      <div className="flex gap-3">
-                        <button onClick={() => setStep(1)} className="btn-outline-gold flex-1 py-3 rounded-full text-sm tracking-widest">← Back</button>
-                        <button
-                          onClick={onSubmit}
-                          disabled={isSubmitting || !canSubmit}
-                          className="btn-gold flex-1 py-3 rounded-full text-sm tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {isSubmitting ? "Confirming..." : "Confirm My Seat ✦"}
-                        </button>
                       </div>
                     </motion.div>
                   )}
+
                 </AnimatePresence>
               </>
             )}
@@ -509,19 +395,33 @@ function LaunchPopup({
   );
 }
 
+// ─── Project Highlight Card ───────────────────────────────────────────────────
+function HighlightCard({ image, title, desc }: { image: string; title: string; desc: string }) {
+  return (
+    <div className="relative rounded-2xl overflow-hidden aspect-[4/5] group cursor-default">
+      <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <h3 className="font-serif text-xl text-cream-50 mb-1">{title}</h3>
+        <p className="text-cream-200 text-xs font-sans leading-relaxed">{desc}</p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Home Component ──────────────────────────────────────────────────────
 export default function Home() {
   const countdown = useCountdown();
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
-  const [selectedPersonality, setSelectedPersonality] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [isNavScrolled, setIsNavScrolled] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const submitLead = trpc.leads.submit.useMutation({
-    onSuccess: () => { setIsSubmitted(true); },
+    onSuccess: () => { setIsSubmitted(true); setIsSubmitting(false); },
     onError: (err: unknown) => {
       toast.error("Something went wrong. Please try again or call us directly.");
       console.error(err);
@@ -546,7 +446,7 @@ export default function Home() {
     setIsPopupOpen(true);
   };
 
-  const updateForm = (field: keyof FormData, value: string | boolean) => {
+  const updateForm = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -557,14 +457,14 @@ export default function Home() {
     }
     setIsSubmitting(true);
     submitLead.mutate({
-      personalityType: selectedPersonality || formData.motivation,
-      primaryMotivation: formData.motivation,
-      dreamLifestyle: formData.lifestyle,
-      useCase: formData.motivation,
-      timeline: formData.timeline,
-      unitType: formData.unitType,
-      budgetRange: formData.budgetRange,
-      downPaymentReady: formData.eoiReadiness,
+      personalityType: "direct",
+      primaryMotivation: "inquiry",
+      dreamLifestyle: formData.unitType || "not specified",
+      useCase: "launch_event",
+      timeline: formData.timeline || "not specified",
+      unitType: formData.unitType || "not specified",
+      budgetRange: "not specified",
+      downPaymentReady: "not specified",
       financingMethod: "installment",
       name: formData.name,
       phone: formData.phone,
@@ -591,31 +491,74 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="flex items-center gap-3">
-              <img
-                src={IMAGES.logoTower}
-                alt="Marina Towers"
-                className="h-10 md:h-12 w-auto object-contain"
-              />
+              <img src={IMAGES.logoTower} alt="Marina Towers" className="h-10 md:h-12 w-auto object-contain" />
             </div>
+            {/* Desktop nav links */}
             <div className="hidden md:flex items-center gap-8">
-              {["Gallery", "Pricing", "Location"].map((item) => (
+              {[
+                { label: "Project Highlights", href: "#highlights" },
+                { label: "Gallery", href: "#gallery" },
+                { label: "Pricing", href: "#pricing" },
+                { label: "Location", href: "#location" },
+              ].map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.label}
+                  href={item.href}
                   className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>
-            <button
-              onClick={openPopup}
-              className="btn-gold px-4 py-2 rounded-full text-xs tracking-widest"
-            >
-              Attend the Launch
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={openPopup}
+                className="btn-gold px-4 py-2 rounded-full text-xs tracking-widest"
+              >
+                Attend the Launch
+              </button>
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden flex flex-col gap-1.5 p-2"
+                aria-label="Menu"
+              >
+                <span className={`block w-5 h-px bg-cream-200 transition-all ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
+                <span className={`block w-5 h-px bg-cream-200 transition-all ${isMobileMenuOpen ? "opacity-0" : ""}`} />
+                <span className={`block w-5 h-px bg-cream-200 transition-all ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+              </button>
+            </div>
           </div>
         </div>
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden nav-blur border-t border-gold-400/15"
+            >
+              <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+                {[
+                  { label: "Project Highlights", href: "#highlights" },
+                  { label: "Gallery", href: "#gallery" },
+                  { label: "Pricing", href: "#pricing" },
+                  { label: "Location", href: "#location" },
+                ].map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans py-1"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* ─── Hero ───────────────────────────────────────────────────────── */}
@@ -753,47 +696,89 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Personality Segmentation ───────────────────────────────────── */}
-      <Section id="personality" className="section-padding bg-navy-950">
+      {/* ─── Project Highlights ─────────────────────────────────────────── */}
+      <Section id="highlights" className="section-padding bg-navy-950">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Tailored For You</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">What Drives Your Decision?</h2>
-            <div className="divider-gold max-w-xs mx-auto mb-4" />
-            <p className="text-muted-foreground font-sans max-w-xl mx-auto text-sm leading-relaxed">
-              Every great investment begins with self-knowledge. Select the profile that resonates with you — and we will show you exactly why Marina Towers is built for your vision.
+          <div className="mb-10">
+            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Project Highlights</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">Built to Impress</h2>
+            <div className="divider-gold max-w-xs mb-4" />
+            <p className="text-muted-foreground font-sans text-sm max-w-xl leading-relaxed">
+              IL Monte Galala Marina Towers invites world-class operators to join in shaping Egypt's first Red Sea skyline. A landmark development where architecture, nature, and luxury converge.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {PERSONALITIES.map((p) => (
-              <motion.div
-                key={p.type}
-                whileHover={{ y: -4 }}
-                onClick={() => { setSelectedPersonality(p.type); openPopup(); }}
-                className={`personality-card glass-card rounded-2xl p-6 border ${p.borderColor} ${selectedPersonality === p.type ? "selected" : ""} bg-gradient-to-br ${p.color} cursor-pointer`}
-              >
-                <div className="text-3xl mb-3">{p.icon}</div>
-                <div className="text-[10px] tracking-[0.2em] uppercase text-gold-400/70 font-sans mb-1">{p.mbti}</div>
-                <h3 className="font-serif text-xl text-cream-50 mb-2">{p.title}</h3>
-                <p className="text-gold-300 text-sm font-sans italic mb-3 leading-relaxed">"{p.tagline}"</p>
-                <p className="text-muted-foreground text-xs font-sans leading-relaxed">{p.message}</p>
-                <button
-                  onClick={(e) => { e.stopPropagation(); openPopup(); }}
-                  className="mt-4 text-xs tracking-widest uppercase text-gold-400 hover:text-gold-300 font-sans transition-colors"
-                >
-                  {p.cta} →
-                </button>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <HighlightCard
+              image={IMAGES.towers}
+              title="Iconic Towers"
+              desc="A collection of architecturally distinctive cylindrical towers shaping Egypt's first Red Sea skyline. Designed to maximise views, light, and privacy."
+            />
+            <HighlightCard
+              image={IMAGES.yachtClub}
+              title="Marriott Hotel"
+              desc="A landmark hotel operated by Autograph Collection by Marriott, bringing a globally recognised name that elevates prestige and attracts international travellers."
+            />
+            <HighlightCard
+              image={IMAGES.marina}
+              title="International Marina"
+              desc="A vibrant marina promenade activated by premium cafes, restaurants, and lifestyle retail. Private berths for yachts and superyachts."
+            />
+          </div>
+        </div>
+      </Section>
+
+      {/* ─── Architecture & Lifestyle ───────────────────────────────────── */}
+      <Section className="section-padding bg-navy-900">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Architecture & Design</p>
+              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight">
+                Your Nature<br /><span className="text-gold-gradient">Inspired Sanctuary</span>
+              </h2>
+              <div className="divider-gold mb-6" />
+              <p className="text-muted-foreground font-sans text-sm leading-relaxed mb-8">
+                IL Monte Galala is designed to bring the outdoors inside — combining raw stone, wooden beams, and flowing landscapes so that nature wraps itself around you. Every residence commands panoramic views of the Red Sea and Galala Mountain simultaneously.
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  "International Marina",
+                  "Marriott Hotel Management",
+                  "24/7 Hospital",
+                  "International Schools",
+                  "Yacht Club",
+                  "Conference Centre",
+                  "Fine Dining Promenade",
+                  "Infinity Pools",
+                  "Private Beach",
+                  "Panoramic Gym",
+                  "Retail Boulevard",
+                  "Concierge Services",
+                ].map((amenity) => (
+                  <div key={amenity} className="flex items-center gap-2">
+                    <span className="text-gold-400 text-xs">◆</span>
+                    <span className="text-cream-200 text-xs font-sans">{amenity}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <img src={IMAGES.interior} alt="Luxury Interior" className="rounded-2xl w-full object-cover aspect-[4/5]" />
+              <div className="absolute -bottom-4 -left-4 glass-card rounded-xl p-4 gold-glow">
+                <p className="text-xs tracking-widest uppercase text-gold-400 font-sans">Managed By</p>
+                <p className="font-serif text-xl text-cream-50">Marriott International</p>
+                <p className="text-xs text-muted-foreground font-sans">Year-round hospitality excellence</p>
+              </div>
+            </div>
           </div>
         </div>
       </Section>
 
       {/* ─── Gallery ────────────────────────────────────────────────────── */}
-      <Section id="gallery" className="section-padding bg-navy-900">
+      <Section id="gallery" className="section-padding bg-navy-950">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">The Project</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Gallery</p>
             <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">A World Above the Ordinary</h2>
             <div className="divider-gold max-w-xs mx-auto" />
           </div>
@@ -829,40 +814,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ─── Amenities ──────────────────────────────────────────────────── */}
-      <Section className="section-padding bg-navy-950">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">The Experience</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight">
-                Every Amenity.<br /><span className="text-gold-gradient">Every Luxury.</span>
-              </h2>
-              <div className="divider-gold mb-6" />
-              <p className="text-muted-foreground font-sans text-sm leading-relaxed mb-8">
-                Marina Towers is not merely a residence — it is an ecosystem of luxury, curated for those who demand the extraordinary. From the international marina to the Marriott-managed hotel, every detail has been designed to elevate your daily life.
-              </p>
-              <div className="grid grid-cols-2 gap-3">
-                {["International Marina", "Marriott Hotel Management", "24/7 Hospital", "International Schools", "Yacht Club", "Conference Centre", "Fine Dining Promenade", "Infinity Pools", "Private Beach", "Panoramic Gym", "Retail Boulevard", "Concierge Services"].map((amenity) => (
-                  <div key={amenity} className="flex items-center gap-2">
-                    <span className="text-gold-400 text-xs">◆</span>
-                    <span className="text-cream-200 text-xs font-sans">{amenity}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative">
-              <img src={IMAGES.interior} alt="Luxury Interior" className="rounded-2xl w-full object-cover aspect-[4/5]" />
-              <div className="absolute -bottom-4 -left-4 glass-card rounded-xl p-4 gold-glow">
-                <p className="text-xs tracking-widest uppercase text-gold-400 font-sans">Managed By</p>
-                <p className="font-serif text-xl text-cream-50">Marriott International</p>
-                <p className="text-xs text-muted-foreground font-sans">Year-round hospitality excellence</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
       {/* ─── Pricing Calculator ─────────────────────────────────────────── */}
       <Section id="pricing" className="section-padding bg-navy-900">
         <div className="container mx-auto px-4">
@@ -877,12 +828,12 @@ export default function Home() {
           </div>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
-              { icon: "🔐", title: "EOI: 200,000 EGP", desc: "Fully refundable expression of interest. Secures your priority access to the launch event and preferred unit selection." },
-              { icon: "📋", title: "5% Down Payment", desc: "Minimal commitment on contract signing. The remaining balance is structured across 10 years of equal monthly installments." },
-              { icon: "📅", title: "10-Year Plan", desc: "120 equal monthly payments. No hidden fees, no balloon payments. Pure, transparent luxury ownership." },
+              { title: "EOI: 200,000 EGP", desc: "Fully refundable expression of interest. Secures your priority access to the launch event and preferred unit selection." },
+              { title: "5% Down Payment", desc: "Minimal commitment on contract signing. The remaining balance is structured across 10 years of equal monthly installments." },
+              { title: "10-Year Plan", desc: "120 equal monthly payments. No hidden fees, no balloon payments. Pure, transparent luxury ownership." },
             ].map((item) => (
-              <div key={item.title} className="glass-card rounded-xl p-5 text-center">
-                <div className="text-2xl mb-3">{item.icon}</div>
+              <div key={item.title} className="glass-card rounded-xl p-5">
+                <div className="divider-gold mb-3 max-w-[2rem]" />
                 <h4 className="font-serif text-lg text-gold-300 mb-2">{item.title}</h4>
                 <p className="text-muted-foreground text-xs font-sans leading-relaxed">{item.desc}</p>
               </div>
@@ -906,19 +857,16 @@ export default function Home() {
               <div className="divider-gold mb-6" />
               <div className="space-y-4">
                 {[
-                  { icon: "🏛️", label: "45 min", desc: "From New Administrative Capital" },
-                  { icon: "✈️", label: "90 min", desc: "From Cairo International Airport" },
-                  { icon: "🌊", label: "Direct", desc: "Red Sea waterfront access" },
-                  { icon: "🏔️", label: "Galala", desc: "Mountain backdrop, sea frontage" },
-                  { icon: "🏨", label: "Marriott", desc: "On-site hotel management" },
-                  { icon: "🏥", label: "24/7", desc: "Hospital within the compound" },
+                  { label: "45 min", desc: "From New Administrative Capital" },
+                  { label: "90 min", desc: "From Cairo International Airport" },
+                  { label: "Direct", desc: "Red Sea waterfront access" },
+                  { label: "Galala", desc: "Mountain backdrop, sea frontage" },
+                  { label: "Marriott", desc: "On-site hotel management" },
+                  { label: "24/7", desc: "Hospital within the compound" },
                 ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-4">
-                    <span className="text-xl w-8">{item.icon}</span>
-                    <div>
-                      <span className="text-gold-300 font-serif text-lg">{item.label}</span>
-                      <span className="text-muted-foreground text-sm font-sans ml-2">{item.desc}</span>
-                    </div>
+                  <div key={item.label} className="flex items-center gap-4 border-b border-gold-400/10 pb-3">
+                    <span className="text-gold-300 font-serif text-lg min-w-[60px]">{item.label}</span>
+                    <span className="text-muted-foreground text-sm font-sans">{item.desc}</span>
                   </div>
                 ))}
               </div>
@@ -975,7 +923,7 @@ export default function Home() {
           <br />
           <button
             onClick={openPopup}
-            className="btn-gold px-10 py-4 rounded-full text-sm tracking-widest animate-pulse-gold"
+            className="btn-gold px-10 py-4 rounded-full text-sm tracking-widest"
           >
             Claim My Invitation — EOI 200K EGP
           </button>
