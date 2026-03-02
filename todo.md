@@ -18,3 +18,8 @@
 
 - [x] Remove all Enneagram type references (Type 3/5/6/7) from personality section
 - [x] Replace text header logo with actual Marina Towers logo image
+
+- [x] Replace header logo with uploaded circular tower logo (image.png)
+- [x] Reframe hero section as exclusive launch event invitation with FOMO copy
+- [x] Update all CTAs to event-attendance language (Secure Your Seat / Attend the Launch)
+- [x] Replace inline form with popup multi-step qualification (3 steps, multiple-choice, fewer questions)
