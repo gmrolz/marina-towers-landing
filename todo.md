@@ -38,3 +38,7 @@
 - [x] Update location section with real distances (60 min Cairo, 90 min airport, 45 min New Capital)
 - [x] Update gallery with 6 real brochure renders and accurate descriptions
 - [x] Update developer trust section with all 4 Tatweer Misr projects named
+
+- [x] Fix navigation menu anchor links (smooth scroll using getElementById)
+- [x] Add masterplan section with IL Monte Galala site plan image and M1-M5 callouts
+- [x] Integrate Google Sheets webhook — every lead sent automatically on form submission

@@ -3,6 +3,25 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+// ─── Google Sheets Webhook ───────────────────────────────────────────────────
+const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbxQ4xmiXE2ovq0g23mtsosFyhatOKdcurv9RSFiw5rUFZ0bvpZUzW5qB72OYZ_ipUst1Q/exec";
+
+async function sendToSheets(data: {
+  name: string; phone: string; email: string;
+  unitType: string; timeline: string;
+}) {
+  try {
+    await fetch(SHEETS_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, source: "Marina Towers Landing Page", submittedAt: new Date().toISOString() }),
+    });
+  } catch (e) {
+    // Non-blocking — sheet sync failure should not break the UX
+    console.warn("[Sheets] Failed to sync lead:", e);
+  }
+}
+
 // ─── Image Paths ──────────────────────────────────────────────────────────────
 const IMAGES = {
   hero: "/images/gallery-sea-view.jpg",
@@ -458,6 +477,14 @@ export default function Home() {
       return;
     }
     setIsSubmitting(true);
+    // Send to Google Sheets immediately (non-blocking)
+    sendToSheets({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      unitType: formData.unitType || "Not specified",
+      timeline: formData.timeline || "Not specified",
+    });
     submitLead.mutate({
       personalityType: "direct",
       primaryMotivation: "inquiry",
@@ -498,18 +525,21 @@ export default function Home() {
             {/* Desktop nav links */}
             <div className="hidden md:flex items-center gap-8">
               {[
-                { label: "Project Highlights", href: "#highlights" },
-                { label: "Gallery", href: "#gallery" },
-                { label: "Pricing", href: "#pricing" },
-                { label: "Location", href: "#location" },
+                { label: "Project Highlights", href: "highlights" },
+                { label: "Gallery", href: "gallery" },
+                { label: "Pricing", href: "pricing" },
+                { label: "Location", href: "location" },
               ].map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href={item.href}
-                  className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans"
+                  onClick={() => {
+                    const el = document.getElementById(item.href);
+                    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans bg-transparent border-none cursor-pointer"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
             </div>
             <div className="flex items-center gap-3">
@@ -543,19 +573,24 @@ export default function Home() {
             >
               <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
                 {[
-                  { label: "Project Highlights", href: "#highlights" },
-                  { label: "Gallery", href: "#gallery" },
-                  { label: "Pricing", href: "#pricing" },
-                  { label: "Location", href: "#location" },
+                  { label: "Project Highlights", href: "highlights" },
+                  { label: "Gallery", href: "gallery" },
+                  { label: "Pricing", href: "pricing" },
+                  { label: "Location", href: "location" },
                 ].map((item) => (
-                  <a
+                  <button
                     key={item.label}
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans py-1"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setTimeout(() => {
+                        const el = document.getElementById(item.href);
+                        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }, 150);
+                    }}
+                    className="text-xs tracking-[0.15em] uppercase text-cream-200 hover:text-gold-300 transition-colors font-sans py-1 bg-transparent border-none cursor-pointer text-left"
                   >
                     {item.label}
-                  </a>
+                  </button>
                 ))}
               </div>
             </motion.div>
@@ -812,6 +847,43 @@ export default function Home() {
                 <img src={item.src} alt={item.label} className="w-full h-full object-cover" />
               </div>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ─── Masterplan ─────────────────────────────────────────────────── */}
+      <Section id="masterplan" className="section-padding bg-navy-950">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Site Plan</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">The Full Vision</h2>
+            <div className="divider-gold max-w-xs mx-auto mb-4" />
+            <p className="text-muted-foreground font-sans text-sm max-w-2xl mx-auto leading-relaxed">
+              IL Monte Galala spans a dramatic peninsula between Galala Mountain and the Red Sea. Marina Towers (clusters M1–M5) occupies the prime waterfront position — directly on the marina, with unobstructed sea views on three sides.
+            </p>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden gold-glow">
+            <img
+              src={IMAGES.masterplan}
+              alt="IL Monte Galala Masterplan — Marina Towers M1–M5"
+              className="w-full object-contain bg-[#f5f0e8] rounded-2xl"
+              style={{ maxHeight: "80vh" }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy-950/90 to-transparent p-6 rounded-b-2xl">
+              <div className="flex flex-wrap gap-4 justify-center">
+                {[
+                  { label: "M1–M5", desc: "Marina Towers Clusters" },
+                  { label: "Marina", desc: "International Yacht Marina" },
+                  { label: "Beach", desc: "Private Beach Club" },
+                  { label: "Hotel", desc: "Marriott Autograph Collection" },
+                ].map((tag) => (
+                  <div key={tag.label} className="flex items-center gap-2 glass-card px-3 py-1.5 rounded-full">
+                    <span className="text-gold-400 font-serif text-sm">{tag.label}</span>
+                    <span className="text-cream-200 text-xs font-sans">{tag.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </Section>
