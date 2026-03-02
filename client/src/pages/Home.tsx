@@ -90,7 +90,6 @@ const PERSONALITIES = [
   {
     type: "achiever",
     mbti: "ENTJ",
-    enneagram: "Type 3",
     icon: "🏆",
     title: "The Achiever",
     tagline: "Your success deserves an address that matches it.",
@@ -102,7 +101,6 @@ const PERSONALITIES = [
   {
     type: "visionary",
     mbti: "INTJ",
-    enneagram: "Type 5",
     icon: "🔭",
     title: "The Visionary",
     tagline: "The future of Egyptian real estate is already here.",
@@ -114,7 +112,6 @@ const PERSONALITIES = [
   {
     type: "security",
     mbti: "ISFJ",
-    enneagram: "Type 6",
     icon: "🛡️",
     title: "The Protector",
     tagline: "The safest investment is the one backed by proven excellence.",
@@ -126,7 +123,6 @@ const PERSONALITIES = [
   {
     type: "explorer",
     mbti: "ENFP",
-    enneagram: "Type 7",
     icon: "🌊",
     title: "The Explorer",
     tagline: "Wake up to the Red Sea. Every single day.",
@@ -312,10 +308,11 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="flex items-center gap-3">
-              <div className="text-left">
-                <div className="font-serif text-xs tracking-[0.3em] text-gold-400 uppercase">IL Monte Galala</div>
-                <div className="font-serif text-sm tracking-[0.2em] text-cream-100 uppercase">Marina Towers</div>
-              </div>
+              <img
+                src={IMAGES.logoWhite}
+                alt="Marina Towers — IL Monte Galala"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
             </div>
             <div className="hidden md:flex items-center gap-8">
               {["Gallery", "Pricing", "Location", "Register"].map((item) => (
@@ -511,7 +508,7 @@ export default function Home() {
               >
                 <div className="text-3xl mb-3">{p.icon}</div>
                 <div className="text-[10px] tracking-[0.2em] uppercase text-gold-400/70 font-sans mb-1">
-                  {p.mbti} · {p.enneagram}
+                  {p.mbti}
                 </div>
                 <h3 className="font-serif text-xl text-cream-50 mb-2">{p.title}</h3>
                 <p className="text-gold-300 text-sm font-sans italic mb-3 leading-relaxed">"{p.tagline}"</p>

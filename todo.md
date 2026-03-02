@@ -15,3 +15,6 @@
 - [x] Ensure mobile responsiveness for Meta/Google Ads traffic
 - [x] Write vitest tests for lead submission
 - [x] Save checkpoint and deliver
+
+- [x] Remove all Enneagram type references (Type 3/5/6/7) from personality section
+- [x] Replace text header logo with actual Marina Towers logo image
