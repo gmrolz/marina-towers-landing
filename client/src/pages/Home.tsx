@@ -42,12 +42,12 @@ function useCountdown() {
 function CountdownUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="countdown-box rounded-lg px-4 py-3 md:px-6 md:py-4 min-w-[70px] md:min-w-[90px] text-center">
-        <span className="font-serif text-3xl md:text-5xl font-light text-gold-300 tabular-nums">
+      <div className="countdown-box rounded-lg text-center" style={{ minWidth: 'clamp(52px, 16vw, 90px)', padding: 'clamp(8px, 2vw, 16px) clamp(10px, 3vw, 24px)' }}>
+        <span className="font-serif font-light text-gold-300 tabular-nums" style={{ fontSize: 'clamp(1.5rem, 7vw, 3rem)' }}>
           {String(value).padStart(2, "0")}
         </span>
       </div>
-      <span className="mt-2 text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground font-sans">{label}</span>
+      <span className="mt-1.5 text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-muted-foreground font-sans">{label}</span>
     </div>
   );
 }
@@ -228,7 +228,7 @@ function LaunchPopup({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
         style={{ backgroundColor: "rgba(3,7,18,0.92)", backdropFilter: "blur(8px)" }}
         onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       >
@@ -237,7 +237,7 @@ function LaunchPopup({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto glass-card rounded-2xl gold-glow"
+          className="relative w-full sm:max-w-lg max-h-[92dvh] overflow-y-auto glass-card rounded-t-2xl sm:rounded-2xl gold-glow"
           style={{ border: "1px solid oklch(76% 0.14 85 / 0.3)" }}
         >
           {/* Close button */}
@@ -249,7 +249,7 @@ function LaunchPopup({
             ✕
           </button>
 
-          <div className="p-6 md:p-8">
+          <div className="p-4 md:p-8">
             {isSubmitted ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
                 <div className="text-5xl mb-4">✦</div>
@@ -573,7 +573,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-navy-950 text-cream-50">
+    <div className="min-h-screen bg-navy-950 text-cream-50 overflow-x-hidden">
 
       {/* ─── Popup Form ─────────────────────────────────────────────────── */}
       <LaunchPopup
@@ -619,18 +619,18 @@ export default function Home() {
       </nav>
 
       {/* ─── Hero ───────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden w-full">
         <div className="absolute inset-0">
           <img src={IMAGES.hero} alt="Marina Towers — IL Monte Galala" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-b from-navy-950/75 via-navy-950/45 to-navy-950/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-950/60 via-transparent to-navy-950/40" />
         </div>
 
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
+        <div className="relative z-10 text-center px-4 w-full max-w-5xl mx-auto pt-20" style={{ overflowX: 'hidden' }}>
           {/* Invitation Badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
-            className="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full border border-gold-400/50 bg-navy-950/70 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 mb-5 px-3 py-2 md:px-5 md:py-2.5 rounded-full border border-gold-400/50 bg-navy-950/70 backdrop-blur-sm max-w-full"
           >
             <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse-gold" />
             <span className="text-gold-300 text-xs tracking-[0.25em] uppercase font-sans">
@@ -641,7 +641,7 @@ export default function Home() {
           {/* Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 1 }}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-4"
+            className="font-serif font-light leading-tight mb-4" style={{ fontSize: 'clamp(2rem, 9vw, 5rem)' }}
           >
             <span className="text-cream-50">The Most Exclusive</span>
             <br />
@@ -650,7 +650,7 @@ export default function Home() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-cream-200 text-base md:text-lg font-sans font-light tracking-wide max-w-2xl mx-auto mb-4"
+            className="text-cream-200 text-sm md:text-base font-sans font-light tracking-wide max-w-2xl mx-auto mb-4 px-2"
           >
             Marina Towers at IL Monte Galala — Egypt's most iconic luxury development on the Red Sea.
             Managed by Marriott. Built by Tatweer Misr. <span className="text-gold-400 font-medium">Seats are strictly limited.</span>
@@ -662,8 +662,8 @@ export default function Home() {
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-red-900/30 border border-red-500/30"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-            <span className="text-red-300 text-[11px] tracking-[0.15em] uppercase font-sans">
-              Limited invitations remaining for the launch event
+            <span className="text-red-300 text-[10px] tracking-[0.1em] uppercase font-sans">
+              Limited invitations remaining
             </span>
           </motion.div>
 
@@ -673,13 +673,13 @@ export default function Home() {
             className="mb-10"
           >
             <p className="text-xs tracking-[0.25em] uppercase text-gold-400 font-sans mb-4">Event Begins In</p>
-            <div className="flex items-start justify-center gap-3 md:gap-5">
+            <div className="flex items-start justify-center" style={{ gap: 'clamp(4px, 2vw, 20px)' }}>
               <CountdownUnit value={countdown.days} label="Days" />
-              <span className="font-serif text-3xl md:text-4xl text-gold-400/60 mt-3">:</span>
+              <span className="font-serif text-gold-400/60 mt-2" style={{ fontSize: 'clamp(1.2rem, 5vw, 2.5rem)' }}>:</span>
               <CountdownUnit value={countdown.hours} label="Hours" />
-              <span className="font-serif text-3xl md:text-4xl text-gold-400/60 mt-3">:</span>
+              <span className="font-serif text-gold-400/60 mt-2" style={{ fontSize: 'clamp(1.2rem, 5vw, 2.5rem)' }}>:</span>
               <CountdownUnit value={countdown.minutes} label="Minutes" />
-              <span className="font-serif text-3xl md:text-4xl text-gold-400/60 mt-3">:</span>
+              <span className="font-serif text-gold-400/60 mt-2" style={{ fontSize: 'clamp(1.2rem, 5vw, 2.5rem)' }}>:</span>
               <CountdownUnit value={countdown.seconds} label="Seconds" />
             </div>
           </motion.div>
@@ -687,17 +687,17 @@ export default function Home() {
           {/* Key Numbers */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.8 }}
-            className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-10"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-10 w-full max-w-xl mx-auto"
           >
             {[
               { label: "EOI", value: "200K EGP", note: "Fully Refundable" },
-              { label: "Starting From", value: "9M EGP", note: "Exclusive Launch Price" },
-              { label: "Down Payment", value: "5%", note: "Only on Signing" },
-              { label: "Payment Plan", value: "10 Years", note: "Equal Installments" },
+              { label: "Starting From", value: "9M EGP", note: "Launch Price" },
+              { label: "Down Payment", value: "5%", note: "On Signing" },
+              { label: "Payment Plan", value: "10 Years", note: "Installments" },
             ].map((item) => (
-              <div key={item.label} className="text-center px-4 py-3 rounded-xl glass-card min-w-[130px]">
+              <div key={item.label} className="text-center px-2 py-3 rounded-xl glass-card">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">{item.label}</p>
-                <p className="font-serif text-xl md:text-2xl text-gold-300">{item.value}</p>
+                <p className="font-serif text-lg md:text-2xl text-gold-300">{item.value}</p>
                 <p className="text-[10px] text-muted-foreground font-sans">{item.note}</p>
               </div>
             ))}
@@ -706,7 +706,7 @@ export default function Home() {
           {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col items-stretch sm:flex-row sm:items-center justify-center gap-3 w-full max-w-sm mx-auto sm:max-w-none"
           >
             <button
               onClick={openPopup}

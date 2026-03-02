@@ -23,3 +23,6 @@
 - [x] Reframe hero section as exclusive launch event invitation with FOMO copy
 - [x] Update all CTAs to event-attendance language (Secure Your Seat / Attend the Launch)
 - [x] Replace inline form with popup multi-step qualification (3 steps, multiple-choice, fewer questions)
+
+- [x] Fix hero section mobile CSS (overflow, font sizes, countdown, key numbers)
+- [x] Fix mobile layout issues across all sections
