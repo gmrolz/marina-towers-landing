@@ -5,14 +5,16 @@ import { toast } from "sonner";
 
 // ─── Image Paths ──────────────────────────────────────────────────────────────
 const IMAGES = {
-  hero: "/images/hero.jpg",
-  towers: "/images/towers.jpg",
-  marina: "/images/marina.jpg",
-  yachtClub: "/images/hotel.jpg",
-  interior: "/images/conf.jpg",
-  promenade: "/images/club.jpg",
-  aerialYachts: "/images/aerial.jpg",
-  logoText: "/images/logo.jpg",
+  hero: "/images/gallery-sea-view.jpg",
+  heroAerial: "/images/hero-aerial.jpg",
+  seaView: "/images/gallery-sea-view.jpg",
+  marinaPromenade: "/images/gallery-marina-promenade.jpg",
+  beachClub: "/images/gallery-beach-club.jpg",
+  marinaLifestyle: "/images/gallery-marina-lifestyle.jpg",
+  eveningRetail: "/images/gallery-evening-retail.jpg",
+  lobbyInterior: "/images/gallery-lobby-interior.jpg",
+  locationMap: "/images/location-map.jpg",
+  masterplan: "/images/masterplan.jpg",
   logoTower: "/images/tower-logo.png",
 };
 
@@ -72,12 +74,12 @@ function Section({ children, className = "", id = "" }: { children: React.ReactN
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY = [
-  { src: IMAGES.towers, label: "Iconic Architecture", desc: "5 cylindrical towers rising above the Red Sea" },
-  { src: IMAGES.marina, label: "International Marina", desc: "Private berths for yachts and superyachts" },
-  { src: IMAGES.interior, label: "Luxury Interiors", desc: "Panoramic sea views from every residence" },
-  { src: IMAGES.yachtClub, label: "Waterfront Living", desc: "Promenade, dining, and leisure at your doorstep" },
-  { src: IMAGES.promenade, label: "Marina Promenade", desc: "World-class amenities along the Red Sea coast" },
-  { src: IMAGES.aerialYachts, label: "Red Sea Lifestyle", desc: "Sailing, diving, and water sports year-round" },
+  { src: IMAGES.seaView, label: "Iconic Architecture", desc: "8 cylindrical towers rising from the Red Sea, framed by the dramatic cliffs of Galala Mountain" },
+  { src: IMAGES.marinaPromenade, label: "Marina Promenade", desc: "A vibrant waterfront promenade with premium cafes, restaurants, and lifestyle retail — all steps from your residence" },
+  { src: IMAGES.beachClub, label: "Private Beach Club", desc: "A full beach club with sunbeds, umbrellas, and a beachfront restaurant — all against the backdrop of Galala Mountain" },
+  { src: IMAGES.marinaLifestyle, label: "International Marina", desc: "Private berths for yachts and superyachts, with a palm-lined promenade and waterfront dining" },
+  { src: IMAGES.eveningRetail, label: "Meridian Club & Retail", desc: "An evening lifestyle destination — boutiques, fine dining, and the Meridian Club lit against the Red Sea sky" },
+  { src: IMAGES.lobbyInterior, label: "Luxury Lobby", desc: "Travertine stone, marble accents, and floor-to-ceiling sea views define the arrival experience at Marina Towers" },
 ];
 
 // ─── Pricing Calculator ───────────────────────────────────────────────────────
@@ -564,7 +566,7 @@ export default function Home() {
       {/* ─── Hero ───────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden w-full">
         <div className="absolute inset-0">
-          <img src={IMAGES.hero} alt="Marina Towers — IL Monte Galala" className="w-full h-full object-cover object-center" />
+          <img src={IMAGES.seaView} alt="Marina Towers — IL Monte Galala" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-b from-navy-950/75 via-navy-950/45 to-navy-950/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-950/60 via-transparent to-navy-950/40" />
         </div>
@@ -681,10 +683,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { value: "5", unit: "Towers", desc: "Iconic cylindrical design" },
+              { value: "8", unit: "Towers", desc: "Iconic cylindrical design" },
               { value: "45", unit: "Minutes", desc: "From New Capital" },
               { value: "100%", unit: "Delivered", desc: "Tatweer Misr track record" },
-              { value: "12+", unit: "Amenities", desc: "World-class facilities" },
+              { value: "15+", unit: "Amenities", desc: "World-class facilities" },
             ].map((stat) => (
               <div key={stat.unit}>
                 <div className="stat-number text-4xl md:text-5xl">{stat.value}</div>
@@ -709,19 +711,19 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <HighlightCard
-              image={IMAGES.towers}
-              title="Iconic Towers"
-              desc="A collection of architecturally distinctive cylindrical towers shaping Egypt's first Red Sea skyline. Designed to maximise views, light, and privacy."
+              image={IMAGES.seaView}
+              title="8 Iconic Towers"
+              desc="Eight architecturally distinctive cylindrical towers shaping Egypt's first Red Sea skyline — each floor rotating slightly to maximise panoramic sea and mountain views."
             />
             <HighlightCard
-              image={IMAGES.yachtClub}
-              title="Marriott Hotel"
-              desc="A landmark hotel operated by Autograph Collection by Marriott, bringing a globally recognised name that elevates prestige and attracts international travellers."
+              image={IMAGES.beachClub}
+              title="Private Beach Club"
+              desc="A full-service beach club with sunbeds, beachfront restaurant, and water sports — all against the dramatic backdrop of Galala Mountain and the Red Sea."
             />
             <HighlightCard
-              image={IMAGES.marina}
+              image={IMAGES.marinaLifestyle}
               title="International Marina"
-              desc="A vibrant marina promenade activated by premium cafes, restaurants, and lifestyle retail. Private berths for yachts and superyachts."
+              desc="A vibrant marina promenade with private berths for yachts and superyachts, premium cafes, restaurants, and lifestyle retail activated year-round."
             />
           </div>
         </div>
@@ -763,7 +765,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
-              <img src={IMAGES.interior} alt="Luxury Interior" className="rounded-2xl w-full object-cover aspect-[4/5]" />
+              <img src={IMAGES.lobbyInterior} alt="Marina Towers Luxury Lobby" className="rounded-2xl w-full object-cover aspect-[4/5]" />
               <div className="absolute -bottom-4 -left-4 glass-card rounded-xl p-4 gold-glow">
                 <p className="text-xs tracking-widest uppercase text-gold-400 font-sans">Managed By</p>
                 <p className="font-serif text-xl text-cream-50">Marriott International</p>
@@ -847,7 +849,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-2 md:order-1">
-              <img src={IMAGES.promenade} alt="Marina Location" className="rounded-2xl w-full object-cover aspect-[4/3]" />
+              <img src={IMAGES.locationMap} alt="IL Monte Galala Location Map" className="rounded-2xl w-full object-cover aspect-[4/3]" />
             </div>
             <div className="order-1 md:order-2">
               <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Location</p>
@@ -858,11 +860,11 @@ export default function Home() {
               <div className="space-y-4">
                 {[
                   { label: "45 min", desc: "From New Administrative Capital" },
+                  { label: "60 min", desc: "From Cairo" },
                   { label: "90 min", desc: "From Cairo International Airport" },
                   { label: "Direct", desc: "Red Sea waterfront access" },
                   { label: "Galala", desc: "Mountain backdrop, sea frontage" },
                   { label: "Marriott", desc: "On-site hotel management" },
-                  { label: "24/7", desc: "Hospital within the compound" },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center gap-4 border-b border-gold-400/10 pb-3">
                     <span className="text-gold-300 font-serif text-lg min-w-[60px]">{item.label}</span>
@@ -885,7 +887,7 @@ export default function Home() {
             {[
               { value: "100%", label: "Delivery Rate", desc: "Every project, on time" },
               { value: "15+", label: "Years", desc: "Of proven excellence" },
-              { value: "4", label: "Mega Projects", desc: "Across Egypt" },
+              { value: "4", label: "Mega Projects", desc: "IL Monte Galala, Fouka Bay, D-Bay, Bloomfields" },
               { value: "EGP 4.5B", label: "Smart Investment", desc: "In technology & innovation" },
             ].map((item) => (
               <div key={item.label} className="glass-card rounded-xl p-5">
@@ -904,7 +906,7 @@ export default function Home() {
       {/* ─── Final CTA Banner ────────────────────────────────────────────── */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img src={IMAGES.aerialYachts} alt="Marina Towers" className="w-full h-full object-cover" />
+          <img src={IMAGES.marinaPromenade} alt="Marina Towers" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-navy-950/88" />
         </div>
         <div className="relative z-10 container mx-auto px-4 text-center">
