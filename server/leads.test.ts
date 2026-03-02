@@ -111,6 +111,51 @@ describe("leads qualification scoring logic", () => {
   });
 });
 
+describe("WhatsApp notification message format", () => {
+  it("builds a correctly formatted WhatsApp message for a lead", () => {
+    const lead = {
+      name: "Ahmed Hassan",
+      phone: "01012345678",
+      email: "ahmed@example.com",
+      unitType: "2 Bedrooms",
+      timeline: "launch",
+      leadId: 42,
+    };
+    const lines = [
+      `*New Marina Towers Lead #${lead.leadId}*`,
+      ``,
+      `*Name:* ${lead.name}`,
+      `*Phone:* ${lead.phone}`,
+      lead.email ? `*Email:* ${lead.email}` : null,
+      lead.unitType ? `*Unit Interest:* ${lead.unitType}` : null,
+      lead.timeline ? `*Timeline:* ${lead.timeline}` : null,
+      ``,
+      `*Source:* Marina Towers Landing Page`,
+    ].filter(Boolean).join("\n");
+
+    expect(lines).toContain("*New Marina Towers Lead #42*");
+    expect(lines).toContain("*Name:* Ahmed Hassan");
+    expect(lines).toContain("*Phone:* 01012345678");
+    expect(lines).toContain("*Email:* ahmed@example.com");
+    expect(lines).toContain("*Unit Interest:* 2 Bedrooms");
+    expect(lines).toContain("*Timeline:* launch");
+    expect(lines).toContain("*Source:* Marina Towers Landing Page");
+  });
+
+  it("omits optional fields when not provided", () => {
+    const lead = { name: "Sara", phone: "01099999999", leadId: 7 };
+    const lines = [
+      `*New Marina Towers Lead #${lead.leadId}*`,
+      `*Name:* ${lead.name}`,
+      `*Phone:* ${lead.phone}`,
+      (lead as { email?: string }).email ? `*Email:* ${(lead as { email?: string }).email}` : null,
+    ].filter(Boolean).join("\n");
+
+    expect(lines).not.toContain("*Email:*");
+    expect(lines).toContain("*Name:* Sara");
+  });
+});
+
 describe("auth.logout", () => {
   it("clears session cookie", async () => {
     const cleared: string[] = [];

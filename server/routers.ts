@@ -6,6 +6,60 @@ import { publicProcedure, router } from "./_core/trpc";
 import { createLead, getAllLeads } from "./db";
 import { notifyOwner } from "./_core/notification";
 
+// ─── Evolution API WhatsApp Notification ─────────────────────────────────────
+const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL || "";
+const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY || "";
+const EVOLUTION_INSTANCE = "lead-bot";
+const NOTIFY_NUMBER = "201080488822"; // Client's WhatsApp number
+
+async function sendWhatsAppNotification(lead: {
+  name: string;
+  phone: string;
+  email?: string;
+  unitType?: string;
+  timeline?: string;
+  leadId: number;
+}) {
+  if (!EVOLUTION_API_URL || !EVOLUTION_API_KEY) return;
+  const message = [
+    `*New Marina Towers Lead #${lead.leadId}*`,
+    ``,
+    `*Name:* ${lead.name}`,
+    `*Phone:* ${lead.phone}`,
+    lead.email ? `*Email:* ${lead.email}` : null,
+    lead.unitType ? `*Unit Interest:* ${lead.unitType}` : null,
+    lead.timeline ? `*Timeline:* ${lead.timeline}` : null,
+    ``,
+    `*Source:* Marina Towers Landing Page`,
+    `*Time:* ${new Date().toLocaleString("en-EG", { timeZone: "Africa/Cairo" })}`,
+  ].filter(Boolean).join("\n");
+
+  try {
+    const res = await fetch(
+      `${EVOLUTION_API_URL}/message/sendText/${EVOLUTION_INSTANCE}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: EVOLUTION_API_KEY,
+        },
+        body: JSON.stringify({
+          number: NOTIFY_NUMBER,
+          text: message,
+        }),
+      }
+    );
+    if (!res.ok) {
+      const err = await res.text();
+      console.warn("[WhatsApp] Failed to send notification:", err);
+    } else {
+      console.log("[WhatsApp] Lead notification sent successfully");
+    }
+  } catch (e) {
+    console.warn("[WhatsApp] Error sending notification:", e);
+  }
+}
+
 const leadInputSchema = z.object({
   // Contact
   name: z.string().min(2, "Name is required"),
@@ -59,6 +113,20 @@ export const appRouter = router({
           financingMethod: input.financingMethod || undefined,
           agreeToContact: 1,
         });
+
+        // Send WhatsApp notification to client
+        try {
+          await sendWhatsAppNotification({
+            name: input.name,
+            phone: input.phone,
+            email: input.email || undefined,
+            unitType: input.unitType || undefined,
+            timeline: input.timeline || undefined,
+            leadId,
+          });
+        } catch (e) {
+          console.warn("[WhatsApp] Notification error:", e);
+        }
 
         // Notify owner of new lead
         try {

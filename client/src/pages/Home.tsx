@@ -219,19 +219,44 @@ function LaunchPopup({
 
           <div className="p-5 md:p-8">
             {isSubmitted ? (
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
-                <div className="w-16 h-16 rounded-full bg-gold-400/10 border border-gold-400/30 flex items-center justify-center mx-auto mb-5">
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
+                {/* Success icon */}
+                <div className="w-16 h-16 rounded-full bg-gold-400/10 border border-gold-400/30 flex items-center justify-center mx-auto mb-4">
                   <span className="text-gold-300 font-serif text-2xl">✦</span>
                 </div>
-                <h3 className="font-serif text-3xl text-gold-300 mb-3">Invitation Confirmed</h3>
-                <div className="divider-gold max-w-xs mx-auto mb-4" />
-                <p className="text-cream-200 font-sans text-sm leading-relaxed mb-6">
-                  Welcome, <strong>{formData.name}</strong>. Your seat at the Marina Towers Launch Event on <span className="text-gold-400">March 15, 2026</span> is being reserved. A dedicated advisor will call you within 24 hours.
+                <h3 className="font-serif text-2xl md:text-3xl text-gold-300 mb-2">Invitation Confirmed</h3>
+                <div className="divider-gold max-w-xs mx-auto mb-3" />
+                <p className="text-cream-200 font-sans text-sm leading-relaxed mb-5">
+                  Welcome, <strong>{formData.name}</strong>. Your seat at the Marina Towers Launch Event on{" "}
+                  <span className="text-gold-400">March 15, 2026</span> is being reserved.
                 </p>
+
+                {/* WhatsApp instant confirmation CTA */}
+                <div className="glass-card rounded-2xl p-5 mb-4 border border-gold-400/20">
+                  <p className="text-xs tracking-widest uppercase text-gold-400 font-sans mb-1">Don't want to wait for a call?</p>
+                  <p className="text-cream-200 text-xs font-sans mb-4 leading-relaxed">
+                    Message us directly on WhatsApp to instantly confirm your attendance and get your exclusive event details.
+                  </p>
+                  <a
+                    href={`https://wa.me/201080488822?text=${encodeURIComponent(`Hello, I just registered for the Marina Towers Launch Event on March 15, 2026. My name is ${formData.name} and my phone is ${formData.phone}. I would like to confirm my attendance.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-3 w-full py-3.5 rounded-full text-sm font-sans font-medium tracking-wide transition-all"
+                    style={{ background: "#25D366", color: "#fff" }}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 flex-shrink-0">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.85L0 24l6.335-1.508A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.213-3.727.887.928-3.618-.234-.372A9.818 9.818 0 1112 21.818z"/>
+                    </svg>
+                    Confirm Attendance on WhatsApp
+                  </a>
+                </div>
+
+                {/* What happens next */}
                 <div className="glass-card rounded-xl p-4 text-left">
                   <p className="text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">What Happens Next</p>
                   {[
-                    "Personal call from your Marina Towers advisor",
+                    "Personal call from your Marina Towers advisor within 24 hours",
                     "Exclusive digital brochure and unit availability preview",
                     "Priority invitation to the March 15 launch event",
                     "First right of refusal on your preferred unit",
@@ -503,6 +528,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-navy-950 text-cream-50 overflow-x-hidden">
+
+      {/* ─── Floating WhatsApp Button ────────────────────────────────────── */}
+      <a
+        href="https://wa.me/201080488822?text=Hello%2C%20I%27m%20interested%20in%20the%20Marina%20Towers%20Launch%20Event%20on%20March%2015%2C%202026."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-[200] flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-transform hover:scale-110 active:scale-95"
+        style={{ background: "#25D366" }}
+        aria-label="Chat on WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.85L0 24l6.335-1.508A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.373l-.36-.213-3.727.887.928-3.618-.234-.372A9.818 9.818 0 1112 21.818z"/>
+        </svg>
+      </a>
 
       {/* ─── Popup Form ─────────────────────────────────────────────────── */}
       <LaunchPopup

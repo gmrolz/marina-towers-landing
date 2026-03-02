@@ -42,3 +42,13 @@
 - [x] Fix navigation menu anchor links (smooth scroll using getElementById)
 - [x] Add masterplan section with IL Monte Galala site plan image and M1-M5 callouts
 - [x] Integrate Google Sheets webhook — every lead sent automatically on form submission
+
+- [ ] Add Evolution API secrets (EVOLUTION_API_KEY, EVOLUTION_API_URL) to environment
+- [ ] Build server-side WhatsApp notification via Evolution API on every new lead
+- [ ] Add floating WhatsApp button (bottom-right, links to +201080488822)
+- [ ] Add final confirmation step in popup: success screen with WhatsApp CTA
+
+- [x] Add Evolution API secrets (EVOLUTION_API_KEY, EVOLUTION_API_URL) to environment
+- [x] Build server-side WhatsApp notification via Evolution API on every new lead
+- [x] Add floating WhatsApp button (bottom-right, links to +201080488822)
+- [x] Add final confirmation step in popup: success screen with WhatsApp CTA
