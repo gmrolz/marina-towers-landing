@@ -1,0 +1,21 @@
+CREATE TABLE `leads` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`name` varchar(255) NOT NULL,
+	`phone` varchar(50) NOT NULL,
+	`email` varchar(320),
+	`personalityType` varchar(50),
+	`primaryMotivation` varchar(100),
+	`dreamLifestyle` varchar(100),
+	`useCase` varchar(100),
+	`timeline` varchar(100),
+	`unitType` varchar(50),
+	`budgetRange` varchar(50),
+	`downPaymentReady` varchar(100),
+	`financingMethod` varchar(100),
+	`qualificationScore` int DEFAULT 0,
+	`qualificationTier` enum('hot','warm','cold') DEFAULT 'cold',
+	`source` varchar(100) DEFAULT 'landing_page',
+	`agreeToContact` int DEFAULT 1,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `leads_id` PRIMARY KEY(`id`)
+);
