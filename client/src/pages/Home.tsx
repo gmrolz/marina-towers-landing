@@ -89,12 +89,12 @@ const UNIT_TYPES = [
   {
     id: "penthouse",
     label: "Penthouse",
-    size: "200+ m²",
-    beds: "4+",
-    baths: "3+",
-    features: ["Rooftop Private Pool", "360° Panoramic Views", "Double-Height Ceilings", "Private Elevator"],
-    planImage: "/images/unit-penthouse-plan.jpg",
-    renderImage: "/images/unit-penthouse-render.jpg",
+    size: "450 m²",
+    beds: "3",
+    baths: "4",
+    features: ["Private Garden 9.35×6.40m", "Master Bedroom 8.60×3.35m", "Reception + Open Kitchen 10.60×6.70m", "Maid Room + Laundry"],
+    planImage: "/images/penthouse-floorplan.jpg",
+    renderImage: "/images/penthouse-floorplan.jpg",
     startingPrice: "On Request",
   },
 ];

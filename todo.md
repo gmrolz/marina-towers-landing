@@ -57,3 +57,6 @@
 - [ ] Add unit types section after hero (Studio, 1BR, 2BR, 3BR, Penthouse) with brochure images
 - [ ] Add UTM parameter capture (utm_source, utm_medium, utm_campaign) stored with lead
 - [ ] Include UTM data in WhatsApp notification and Google Sheets payload
+
+- [x] Update Penthouse unit card with correct floor plan image (img821, 450m²) and accurate specs
+- [x] Update 1BR Loft unit with img796 floor plan and 105m² specs
