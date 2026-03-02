@@ -15,6 +15,13 @@
       "when": 1772483280543,
       "tag": "0001_slim_weapon_omega",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772491015540,
+      "tag": "0002_gigantic_veda",
+      "breakpoints": true
     }
   ]
 }

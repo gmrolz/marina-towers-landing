@@ -9,18 +9,95 @@ const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbxQ4xmiXE2ovq0g2
 async function sendToSheets(data: {
   name: string; phone: string; email: string;
   unitType: string; timeline: string;
+  utmSource?: string; utmMedium?: string; utmCampaign?: string;
 }) {
   try {
     await fetch(SHEETS_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, source: "Marina Towers Landing Page", submittedAt: new Date().toISOString() }),
+      body: JSON.stringify({
+        ...data,
+        source: "Marina Towers Landing Page",
+        submittedAt: new Date().toISOString(),
+      }),
     });
   } catch (e) {
-    // Non-blocking — sheet sync failure should not break the UX
     console.warn("[Sheets] Failed to sync lead:", e);
   }
 }
+
+// ─── UTM Parameter Hook ───────────────────────────────────────────────────────
+function useUTM() {
+  const [utm, setUtm] = useState({ source: "", medium: "", campaign: "" });
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setUtm({
+      source: params.get("utm_source") || "",
+      medium: params.get("utm_medium") || "",
+      campaign: params.get("utm_campaign") || "",
+    });
+  }, []);
+  return utm;
+}
+
+// ─── Unit Types Data ──────────────────────────────────────────────────────────
+const UNIT_TYPES = [
+  {
+    id: "studio",
+    label: "Studio",
+    size: "65 m²",
+    beds: "Studio",
+    baths: "1",
+    features: ["Private Pool Terrace", "Open Kitchen", "Sea View", "Master Bedroom"],
+    planImage: "/images/unit-studio-plan.jpg",
+    renderImage: "/images/unit-studio-render.jpg",
+    startingPrice: "From 9M EGP",
+  },
+  {
+    id: "1br",
+    label: "1 Bedroom",
+    size: "85 m²",
+    beds: "1",
+    baths: "1",
+    features: ["Private Pool Terrace", "Open Kitchen", "Sea View", "Spacious Living"],
+    planImage: "/images/unit-1br-plan.jpg",
+    renderImage: "/images/unit-1br-render.jpg",
+    startingPrice: "From 12M EGP",
+  },
+  {
+    id: "2br",
+    label: "2 Bedrooms",
+    size: "110 m²",
+    beds: "2",
+    baths: "2",
+    features: ["Private Pool Terrace", "Open Kitchen", "Sea & Mountain Views", "Master Suite"],
+    planImage: "/images/unit-2br-plan.jpg",
+    renderImage: "/images/unit-2br-render.jpg",
+    startingPrice: "From 16M EGP",
+  },
+  {
+    id: "3br",
+    label: "3 Bedrooms",
+    size: "135 m²",
+    beds: "3",
+    baths: "2",
+    features: ["Private Pool Terrace", "Open Kitchen", "Panoramic Views", "3 Master Suites"],
+    planImage: "/images/unit-3br-plan.jpg",
+    renderImage: "/images/unit-3br-render.jpg",
+    startingPrice: "From 20M EGP",
+  },
+  {
+    id: "penthouse",
+    label: "Penthouse",
+    size: "200+ m²",
+    beds: "4+",
+    baths: "3+",
+    features: ["Rooftop Private Pool", "360° Panoramic Views", "Double-Height Ceilings", "Private Elevator"],
+    planImage: "/images/unit-penthouse-plan.jpg",
+    renderImage: "/images/unit-penthouse-render.jpg",
+    startingPrice: "On Request",
+  },
+];
 
 // ─── Image Paths ──────────────────────────────────────────────────────────────
 const IMAGES = {
@@ -458,6 +535,7 @@ function HighlightCard({ image, title, desc }: { image: string; title: string; d
 // ─── Main Home Component ──────────────────────────────────────────────────────
 export default function Home() {
   const countdown = useCountdown();
+  const utm = useUTM();
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -465,6 +543,8 @@ export default function Home() {
   const [isNavScrolled, setIsNavScrolled] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeUnitTab, setActiveUnitTab] = useState("studio");
+  const [unitView, setUnitView] = useState<"render" | "plan">("render");
 
   const submitLead = trpc.leads.submit.useMutation({
     onSuccess: () => { setIsSubmitted(true); setIsSubmitting(false); },
@@ -509,6 +589,9 @@ export default function Home() {
       email: formData.email,
       unitType: formData.unitType || "Not specified",
       timeline: formData.timeline || "Not specified",
+      utmSource: utm.source,
+      utmMedium: utm.medium,
+      utmCampaign: utm.campaign,
     });
     submitLead.mutate({
       personalityType: "direct",
@@ -523,6 +606,9 @@ export default function Home() {
       name: formData.name,
       phone: formData.phone,
       email: formData.email,
+      utmSource: utm.source || undefined,
+      utmMedium: utm.medium || undefined,
+      utmCampaign: utm.campaign || undefined,
     });
   };
 
@@ -751,6 +837,135 @@ export default function Home() {
           <span className="text-[10px] tracking-[0.3em] uppercase text-gold-400/60 font-sans">Scroll</span>
           <div className="w-px h-12 bg-gradient-to-b from-gold-400/60 to-transparent" />
         </motion.div>
+      </section>
+
+      {/* ─── Unit Types Section ─────────────────────────────────────── */}
+      <section id="units" className="section-padding bg-navy-950">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">Residences</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4">Choose Your Residence</h2>
+            <div className="divider-gold max-w-xs mx-auto mb-4" />
+            <p className="text-muted-foreground font-sans text-sm max-w-xl mx-auto leading-relaxed">
+              Every unit at Marina Towers features a private pool terrace, panoramic sea views, and Marriott-standard finishes. Starting from 9M EGP with 5% down and 10-year payment plan.
+            </p>
+          </div>
+
+          {/* Unit Type Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {UNIT_TYPES.map((unit) => (
+              <button
+                key={unit.id}
+                onClick={() => { setActiveUnitTab(unit.id); setUnitView("render"); }}
+                className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-sans transition-all duration-300 border ${
+                  activeUnitTab === unit.id
+                    ? "bg-gold-400 text-navy-950 border-gold-400 font-semibold"
+                    : "bg-transparent text-cream-200 border-cream-200/30 hover:border-gold-400/60 hover:text-gold-300"
+                }`}
+              >
+                {unit.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Active Unit Display */}
+          {UNIT_TYPES.filter((u) => u.id === activeUnitTab).map((unit) => (
+            <div key={unit.id} className="grid md:grid-cols-2 gap-8 items-start">
+              {/* Image Panel */}
+              <div className="relative">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-navy-900">
+                  <img
+                    src={unitView === "render" ? unit.renderImage : unit.planImage}
+                    alt={`${unit.label} ${unitView === "render" ? "interior" : "floor plan"}`}
+                    className="w-full h-full object-cover transition-all duration-500"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 to-transparent" />
+                </div>
+                {/* View Toggle */}
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() => setUnitView("render")}
+                    className={`flex-1 py-2 rounded-lg text-xs tracking-widest uppercase font-sans transition-all border ${
+                      unitView === "render"
+                        ? "bg-gold-400/20 border-gold-400/60 text-gold-300"
+                        : "bg-transparent border-cream-200/20 text-muted-foreground hover:border-gold-400/40"
+                    }`}
+                  >
+                    Interior
+                  </button>
+                  <button
+                    onClick={() => setUnitView("plan")}
+                    className={`flex-1 py-2 rounded-lg text-xs tracking-widest uppercase font-sans transition-all border ${
+                      unitView === "plan"
+                        ? "bg-gold-400/20 border-gold-400/60 text-gold-300"
+                        : "bg-transparent border-cream-200/20 text-muted-foreground hover:border-gold-400/40"
+                    }`}
+                  >
+                    Floor Plan
+                  </button>
+                </div>
+              </div>
+
+              {/* Info Panel */}
+              <div className="flex flex-col justify-center">
+                <div className="flex items-baseline gap-3 mb-2">
+                  <h3 className="font-serif text-3xl md:text-4xl text-cream-50">{unit.label}</h3>
+                  <span className="text-gold-400 text-sm font-sans">{unit.size}</span>
+                </div>
+                <div className="divider-gold mb-5" />
+
+                {/* Stats Row */}
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  <div className="text-center p-3 rounded-xl glass-card">
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">Bedrooms</p>
+                    <p className="font-serif text-2xl text-cream-50">{unit.beds}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl glass-card">
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">Bathrooms</p>
+                    <p className="font-serif text-2xl text-cream-50">{unit.baths}</p>
+                  </div>
+                  <div className="text-center p-3 rounded-xl glass-card">
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">Area</p>
+                    <p className="font-serif text-lg text-cream-50">{unit.size}</p>
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <p className="text-[10px] tracking-[0.25em] uppercase text-gold-400/80 font-sans mb-3">Key Features</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {unit.features.map((f) => (
+                      <div key={f} className="flex items-center gap-2">
+                        <div className="w-1 h-1 rounded-full bg-gold-400 flex-shrink-0" />
+                        <span className="text-cream-200 text-xs font-sans">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Price + CTA */}
+                <div className="flex items-center justify-between p-4 rounded-xl glass-card mb-4">
+                  <div>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">Starting Price</p>
+                    <p className="font-serif text-2xl text-gold-300">{unit.startingPrice}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-gold-400/80 font-sans mb-1">Down Payment</p>
+                    <p className="font-serif text-xl text-cream-50">5%</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={openPopup}
+                  className="btn-gold w-full py-3 rounded-full text-xs tracking-widest"
+                >
+                  Secure This Unit at Launch
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ─── Stats Bar ──────────────────────────────────────────────────── */}

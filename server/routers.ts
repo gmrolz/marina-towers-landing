@@ -18,6 +18,9 @@ async function sendWhatsAppNotification(lead: {
   email?: string;
   unitType?: string;
   timeline?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
   leadId: number;
 }) {
   if (!EVOLUTION_API_URL || !EVOLUTION_API_KEY) return;
@@ -31,6 +34,9 @@ async function sendWhatsAppNotification(lead: {
     lead.timeline ? `*Timeline:* ${lead.timeline}` : null,
     ``,
     `*Source:* Marina Towers Landing Page`,
+    lead.utmSource ? `*Ad Source:* ${lead.utmSource}` : null,
+    lead.utmMedium ? `*Ad Medium:* ${lead.utmMedium}` : null,
+    lead.utmCampaign ? `*Campaign:* ${lead.utmCampaign}` : null,
     `*Time:* ${new Date().toLocaleString("en-EG", { timeZone: "Africa/Cairo" })}`,
   ].filter(Boolean).join("\n");
 
@@ -80,6 +86,11 @@ const leadInputSchema = z.object({
   budgetRange: z.string().optional(),
   downPaymentReady: z.string().optional(),
   financingMethod: z.string().optional(),
+
+  // Attribution
+  utmSource: z.string().optional(),
+  utmMedium: z.string().optional(),
+  utmCampaign: z.string().optional(),
 });
 
 export const appRouter = router({
@@ -111,6 +122,9 @@ export const appRouter = router({
           budgetRange: input.budgetRange || undefined,
           downPaymentReady: input.downPaymentReady || undefined,
           financingMethod: input.financingMethod || undefined,
+          utmSource: input.utmSource || undefined,
+          utmMedium: input.utmMedium || undefined,
+          utmCampaign: input.utmCampaign || undefined,
           agreeToContact: 1,
         });
 
@@ -122,6 +136,9 @@ export const appRouter = router({
             email: input.email || undefined,
             unitType: input.unitType || undefined,
             timeline: input.timeline || undefined,
+            utmSource: input.utmSource || undefined,
+            utmMedium: input.utmMedium || undefined,
+            utmCampaign: input.utmCampaign || undefined,
             leadId,
           });
         } catch (e) {

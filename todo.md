@@ -52,3 +52,8 @@
 - [x] Build server-side WhatsApp notification via Evolution API on every new lead
 - [x] Add floating WhatsApp button (bottom-right, links to +201080488822)
 - [x] Add final confirmation step in popup: success screen with WhatsApp CTA
+
+- [ ] Scan brochure images for unit layout floor plans
+- [ ] Add unit types section after hero (Studio, 1BR, 2BR, 3BR, Penthouse) with brochure images
+- [ ] Add UTM parameter capture (utm_source, utm_medium, utm_campaign) stored with lead
+- [ ] Include UTM data in WhatsApp notification and Google Sheets payload

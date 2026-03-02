@@ -43,6 +43,11 @@ export const leads = mysqlTable("leads", {
   qualificationScore: int("qualificationScore").default(0),       // 0-100
   qualificationTier: mysqlEnum("qualificationTier", ["hot", "warm", "cold"]).default("cold"),
 
+  // Attribution (UTM)
+  utmSource: varchar("utmSource", { length: 100 }),    // e.g. facebook, google
+  utmMedium: varchar("utmMedium", { length: 100 }),    // e.g. cpc, paid_social
+  utmCampaign: varchar("utmCampaign", { length: 255 }), // e.g. marina_launch_march
+
   // Meta
   source: varchar("source", { length: 100 }).default("landing_page"),
   agreeToContact: int("agreeToContact").default(1),
