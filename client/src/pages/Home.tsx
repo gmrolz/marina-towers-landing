@@ -1237,7 +1237,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-navy-950/88" />
         </div>
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">March 15, 2026 · Ain Sokhna</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">March 15, 2026 · Cairo</p>
           <h2 className="font-serif text-4xl md:text-6xl text-cream-50 mb-4 leading-tight">
             Your Invitation<br />
             <span className="text-shimmer">Is Waiting</span>
@@ -1278,7 +1278,7 @@ export default function Home() {
             <div className="text-right">
               <p className="text-xs tracking-widest uppercase text-gold-400 font-sans mb-1">Launch Event</p>
               <p className="font-serif text-xl text-cream-50">March 15, 2026</p>
-              <p className="text-muted-foreground text-xs font-sans">Ain Sokhna, Egypt</p>
+              <p className="text-muted-foreground text-xs font-sans">Cairo, Egypt</p>
             </div>
           </div>
         </div>
