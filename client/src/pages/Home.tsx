@@ -115,7 +115,7 @@ const IMAGES = {
 };
 
 // ─── Countdown Timer ──────────────────────────────────────────────────────────
-const LAUNCH_DATE = new Date("2026-03-15T10:00:00+02:00");
+const LAUNCH_DATE = new Date("2026-03-13T10:00:00+02:00");
 
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -222,7 +222,7 @@ function PricingCalculator() {
       </div>
       <div className="mt-6 pt-4 border-t border-gold-400/20">
         <p className="text-xs text-muted-foreground font-sans text-center">
-          * Prices are indicative. Final pricing confirmed at the launch event on <span className="text-gold-400">March 15, 2026</span>
+          * Prices are indicative. Final pricing confirmed at the launch event on <span className="text-gold-400">March 13, 2026</span>
         </p>
       </div>
     </div>
@@ -305,7 +305,7 @@ function LaunchPopup({
                 <div className="divider-gold max-w-xs mx-auto mb-3" />
                 <p className="text-cream-200 font-sans text-sm leading-relaxed mb-5">
                   Welcome, <strong>{formData.name}</strong>. Your seat at the Marina Towers Launch Event on{" "}
-                  <span className="text-gold-400">March 15, 2026</span> is being reserved.
+                  <span className="text-gold-400">March 13, 2026</span> is being reserved.
                 </p>
 
                 {/* WhatsApp instant confirmation CTA */}
@@ -315,7 +315,7 @@ function LaunchPopup({
                     Message us directly on WhatsApp to instantly confirm your attendance and get your exclusive event details.
                   </p>
                   <a
-                    href={`https://wa.me/201080488822?text=${encodeURIComponent(`Hello, I just registered for the Marina Towers Launch Event on March 15, 2026. My name is ${formData.name} and my phone is ${formData.phone}. I would like to confirm my attendance.`)}`}
+                    href={`https://wa.me/201080488822?text=${encodeURIComponent(`Hello, I just registered for the Marina Towers Launch Event on March 13, 2026. My name is ${formData.name} and my phone is ${formData.phone}. I would like to confirm my attendance.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 w-full py-3.5 rounded-full text-sm font-sans font-medium tracking-wide transition-all"
@@ -335,7 +335,7 @@ function LaunchPopup({
                   {[
                     "Personal call from your Marina Towers advisor within 24 hours",
                     "Exclusive digital brochure and unit availability preview",
-                    "Priority invitation to the March 15 launch event",
+                    "Priority invitation to the March 13 launch event",
                     "First right of refusal on your preferred unit",
                   ].map((s, i) => (
                     <div key={i} className="flex items-start gap-3 mb-2">
@@ -350,7 +350,7 @@ function LaunchPopup({
                 {/* Header */}
                 <div className="text-center mb-5">
                   <img src={IMAGES.logoTower} alt="Marina Towers" className="h-10 w-auto mx-auto mb-3 opacity-90" />
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-gold-400 font-sans mb-1">Exclusive Launch Event · March 15, 2026</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-gold-400 font-sans mb-1">Exclusive Launch Event · March 13, 2026</p>
                   <h2 className="font-serif text-xl text-cream-50">Secure Your Seat</h2>
                 </div>
 
@@ -447,7 +447,7 @@ function LaunchPopup({
                         <label className="block text-xs tracking-widest uppercase text-gold-400 font-sans mb-3">When are you planning to buy?</label>
                         <div className="grid grid-cols-2 gap-2">
                           {[
-                            { value: "launch", label: "At the March 15 Launch" },
+                            { value: "launch", label: "At the March 13 Launch" },
                             { value: "q2_2026", label: "Within Q2 2026" },
                             { value: "year", label: "Within This Year" },
                             { value: "exploring", label: "Still Exploring" },
@@ -740,7 +740,7 @@ export default function Home() {
           >
             <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse-gold" />
             <span className="text-gold-300 text-xs tracking-[0.25em] uppercase font-sans">
-              You Are Invited · March 15, 2026
+              You Are Invited · March 13, 2026
             </span>
           </motion.div>
 
@@ -1237,7 +1237,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-navy-950/88" />
         </div>
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">March 15, 2026 · Cairo</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-gold-400 font-sans mb-3">March 13, 2026 · Cairo</p>
           <h2 className="font-serif text-4xl md:text-6xl text-cream-50 mb-4 leading-tight">
             Your Invitation<br />
             <span className="text-shimmer">Is Waiting</span>
@@ -1277,7 +1277,7 @@ export default function Home() {
             </div>
             <div className="text-right">
               <p className="text-xs tracking-widest uppercase text-gold-400 font-sans mb-1">Launch Event</p>
-              <p className="font-serif text-xl text-cream-50">March 15, 2026</p>
+              <p className="font-serif text-xl text-cream-50">March 13, 2026</p>
               <p className="text-muted-foreground text-xs font-sans">Cairo, Egypt</p>
             </div>
           </div>
