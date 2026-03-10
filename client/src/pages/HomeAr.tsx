@@ -583,7 +583,20 @@ export default function HomeAr() {
   const [unitView, setUnitView] = useState<"render" | "plan">("render");
 
   const submitLead = trpc.leads.submit.useMutation({
-    onSuccess: () => { setIsSubmitted(true); setIsSubmitting(false); },
+    onSuccess: () => {
+      setIsSubmitted(true);
+      setIsSubmitting(false);
+      // Fire Google Ads conversion event
+      try {
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'conversion', {
+            send_to: 'AW-11290068550/lead_form_submit',
+            value: 1.0,
+            currency: 'EGP',
+          });
+        }
+      } catch (e) { /* silent */ }
+    },
     onError: (err: unknown) => {
       toast.error("في مشكلة، حاول تاني أو كلمنا على واتساب.");
       console.error(err);

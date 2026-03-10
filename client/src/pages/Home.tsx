@@ -547,7 +547,20 @@ export default function Home() {
   const [unitView, setUnitView] = useState<"render" | "plan">("render");
 
   const submitLead = trpc.leads.submit.useMutation({
-    onSuccess: () => { setIsSubmitted(true); setIsSubmitting(false); },
+    onSuccess: () => {
+      setIsSubmitted(true);
+      setIsSubmitting(false);
+      // Fire Google Ads conversion event
+      try {
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'conversion', {
+            send_to: 'AW-11290068550/lead_form_submit',
+            value: 1.0,
+            currency: 'EGP',
+          });
+        }
+      } catch (e) { /* silent */ }
+    },
     onError: (err: unknown) => {
       toast.error("Something went wrong. Please try again or call us directly.");
       console.error(err);
