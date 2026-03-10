@@ -12,6 +12,7 @@
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-arabic: 'Cairo', 'Segoe UI', system-ui, sans-serif;
   --color-gold-50: oklch(97% 0.02 85);
   --color-gold-100: oklch(93% 0.05 85);
   --color-gold-200: oklch(88% 0.09 85);
