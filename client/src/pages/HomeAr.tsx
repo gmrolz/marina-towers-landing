@@ -232,12 +232,22 @@ export default function HomeAr() {
               </button>
             ))}
           </div>
-          <button
-            onClick={() => scrollTo("register")}
-            className="hidden md:block bg-gold-500 hover:bg-gold-400 text-[#0a0a0a] text-xs font-bold tracking-[0.15em] uppercase px-5 py-2.5 transition-colors"
-          >
-            احجز مقعدك
-          </button>
+          <div className="hidden md:flex items-center gap-3">
+            {/* Language switcher */}
+            <a
+              href="/"
+              className="flex items-center gap-1.5 border border-gold-400/30 hover:border-gold-400/70 text-gold-400/70 hover:text-gold-400 text-[10px] tracking-[0.15em] uppercase font-sans px-3 py-1.5 transition-all"
+            >
+              <span>🌐</span>
+              <span>English</span>
+            </a>
+            <button
+              onClick={() => scrollTo("register")}
+              className="bg-gold-500 hover:bg-gold-400 text-[#0a0a0a] text-xs font-bold tracking-[0.15em] uppercase px-5 py-2.5 transition-colors"
+            >
+              احجز مقعدك
+            </button>
+          </div>
           <button className="md:hidden text-cream-50" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen
@@ -264,7 +274,11 @@ export default function HomeAr() {
                   {item.label}
                 </button>
               ))}
-              <button onClick={() => scrollTo("register")} className="bg-gold-500 text-[#0a0a0a] text-sm font-bold py-3 mt-2">
+              <a href="/" className="flex items-center justify-center gap-2 border border-gold-400/30 text-gold-400 text-sm py-2.5">
+                <span>🌐</span>
+                <span>English Version</span>
+              </a>
+              <button onClick={() => scrollTo("register")} className="bg-gold-500 text-[#0a0a0a] text-sm font-bold py-3">
                 احجز مقعدك
               </button>
             </motion.div>

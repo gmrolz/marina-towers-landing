@@ -669,6 +669,14 @@ export default function Home() {
               ))}
             </div>
             <div className="flex items-center gap-3">
+              {/* Language switcher */}
+              <a
+                href="/ar"
+                className="hidden md:flex items-center gap-1.5 border border-gold-400/30 hover:border-gold-400/70 text-gold-400/70 hover:text-gold-400 text-[10px] tracking-[0.15em] uppercase font-sans px-3 py-1.5 transition-all"
+              >
+                <span>🌐</span>
+                <span>عربي</span>
+              </a>
               <button
                 onClick={openPopup}
                 className="btn-gold px-4 py-2 rounded-full text-xs tracking-widest"
@@ -718,6 +726,13 @@ export default function Home() {
                     {item.label}
                   </button>
                 ))}
+                <a
+                  href="/ar"
+                  className="flex items-center gap-2 border border-gold-400/30 text-gold-400 text-xs tracking-[0.15em] uppercase font-sans py-2.5 px-3 mt-1"
+                >
+                  <span>🌐</span>
+                  <span>عربي — Arabic Version</span>
+                </a>
               </div>
             </motion.div>
           )}
