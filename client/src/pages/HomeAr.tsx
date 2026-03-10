@@ -187,7 +187,7 @@ function PricingCalculator() {
 
   return (
     <div className="glass-card rounded-2xl p-6 md:p-8 gold-glow" dir="rtl">
-      <h3 className="font-serif text-2xl md:text-3xl text-gold-300 mb-2" style={{ fontFamily: "'Tajawal', sans-serif" }}>حاسبة الدفع</h3>
+                <h3 className="font-serif text-2xl md:text-3xl text-gold-300 mb-2" style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700 }}>حاسبة الدفع</h3>
       <p className="text-muted-foreground text-sm mb-6" style={{ fontFamily: "'Tajawal', sans-serif" }}>اختار سعر الوحدة وشوف خطة السداد المناسبة ليك</p>
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
@@ -298,7 +298,7 @@ function LaunchPopup({
                 <div className="w-16 h-16 rounded-full bg-gold-400/10 border border-gold-400/30 flex items-center justify-center mx-auto mb-4">
                   <span className="text-gold-300 font-serif text-2xl">✦</span>
                 </div>
-                <h3 className="font-serif text-2xl md:text-3xl text-gold-300 mb-2">تم تأكيد دعوتك</h3>
+                <h3 className="font-serif text-2xl md:text-3xl text-gold-300 mb-2" style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700 }}>تم تأكيد دعوتك</h3>
                 <div className="divider-gold max-w-xs mx-auto mb-3" />
                 <p className="text-cream-200 text-sm leading-relaxed mb-5">
                   أهلاً <strong>{formData.name}</strong>، بنحجزلك مقعدك في حفل إطلاق مارينا تاورز{" "}
@@ -561,7 +561,7 @@ function HighlightCard({ image, title, desc }: { image: string; title: string; d
       <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 text-right">
-        <h3 className="font-serif text-xl text-cream-50 mb-1" style={{ fontFamily: "'Tajawal', sans-serif" }}>{title}</h3>
+              <h3 className="font-serif text-xl text-cream-50 mb-1" style={{ fontFamily: "'Almarai', sans-serif", fontWeight: 700 }}>{title}</h3>
         <p className="text-cream-200 text-xs leading-relaxed" style={{ fontFamily: "'Tajawal', sans-serif" }}>{desc}</p>
       </div>
     </div>
@@ -656,6 +656,7 @@ export default function HomeAr() {
   };
 
   const arFont = { fontFamily: "'Tajawal', sans-serif" };
+  const headingFont = { fontFamily: "'Almarai', sans-serif", fontWeight: 700 };
 
   return (
     <div className="min-h-screen bg-navy-950 text-cream-50 overflow-x-hidden" dir="rtl" style={arFont}>
@@ -802,7 +803,7 @@ export default function HomeAr() {
           {/* Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 1 }}
-            className="font-light leading-tight mb-4" style={{ fontSize: 'clamp(2rem, 9vw, 5rem)', fontFamily: "'Tajawal', sans-serif", fontWeight: 300 }}
+            className="font-light leading-tight mb-4" style={{ fontSize: 'clamp(2rem, 9vw, 5rem)', fontFamily: "'Almarai', sans-serif", fontWeight: 800 }}
           >
             <span className="text-cream-50">أفخم إطلاق عقاري</span>
             <br />
@@ -902,7 +903,7 @@ export default function HomeAr() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>الوحدات</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={arFont}>اختار وحدتك</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={headingFont}>اختار وحدتك</h2>
             <div className="divider-gold max-w-xs mx-auto mb-4" />
             <p className="text-muted-foreground text-sm max-w-xl mx-auto leading-relaxed" style={arFont}>
               كل وحدة في مارينا تاورز بتراس بحمام سباحة خاص وإطلالة بانورامية على البحر وتشطيبات ماريوت. يبدأ من 9 مليون بمقدم 5% وخطة سداد 10 سنين.
@@ -962,7 +963,7 @@ export default function HomeAr() {
               {/* Info Panel */}
               <div className="flex flex-col justify-center">
                 <div className="flex items-baseline gap-3 mb-2 flex-row-reverse justify-end">
-                  <h3 className="font-serif text-3xl md:text-4xl text-cream-50" style={arFont}>{unit.label}</h3>
+                  <h3 className="font-serif text-3xl md:text-4xl text-cream-50" style={headingFont}>{unit.label}</h3>
                   <span className="text-gold-400 text-sm" style={arFont}>{unit.size}</span>
                 </div>
                 <div className="divider-gold mb-5" />
@@ -1043,7 +1044,7 @@ export default function HomeAr() {
         <div className="container mx-auto px-4">
           <div className="mb-10">
             <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>مميزات المشروع</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={arFont}>صُمِّم ليبهرك</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={headingFont}>صُمِّم ليبهرك</h2>
             <div className="divider-gold max-w-xs mb-4" />
             <p className="text-muted-foreground text-sm max-w-xl leading-relaxed" style={arFont}>
               إيل مونتي جلالة مارينا تاورز — أول سكاي لاين على البحر الأحمر في مصر. مكان اتلاقت فيه العمارة والطبيعة والفخامة في مشروع واحد.
@@ -1063,7 +1064,7 @@ export default function HomeAr() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>العمارة والتصميم</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight" style={arFont}>
+              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight" style={headingFont}>
                 ملاذك المستوحى<br /><span className="text-gold-gradient">من الطبيعة</span>
               </h2>
               <div className="divider-gold mb-6" />
@@ -1100,7 +1101,7 @@ export default function HomeAr() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>المعرض</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={arFont}>عالم فوق المعتاد</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={headingFont}>عالم فوق المعتاد</h2>
             <div className="divider-gold max-w-xs mx-auto" />
           </div>
           <div className="relative rounded-2xl overflow-hidden mb-4 aspect-[16/9] md:aspect-[21/9]">
@@ -1140,7 +1141,7 @@ export default function HomeAr() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>المخطط العام</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={arFont}>الرؤية الكاملة</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={headingFont}>الرؤية الكاملة</h2>
             <div className="divider-gold max-w-xs mx-auto mb-4" />
             <p className="text-muted-foreground text-sm max-w-2xl mx-auto leading-relaxed" style={arFont}>
               إيل مونتي جلالة ممتد على شبه جزيرة رائعة بين جبل الجلالة والبحر الأحمر. مارينا تاورز (M1–M5) بتحتل أفضل موقع على الواجهة المائية — مباشرة على المارينا بإطلالة بحرية من ثلاث جهات.
@@ -1177,7 +1178,7 @@ export default function HomeAr() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>الاستثمار</p>
-            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={arFont}>خطة السداد بتاعتك</h2>
+            <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-4" style={headingFont}>خطة السداد بتاعتك</h2>
             <div className="divider-gold max-w-xs mx-auto mb-4" />
             <p className="text-muted-foreground text-sm max-w-lg mx-auto" style={arFont}>مصممة للمستثمر الجاد. دخول بسيط وقيمة عالية.</p>
           </div>
@@ -1209,7 +1210,7 @@ export default function HomeAr() {
             </div>
             <div className="order-1 md:order-2">
               <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>الموقع</p>
-              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight" style={arFont}>
+              <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6 leading-tight" style={headingFont}>
                 جبل الجلالة.<br /><span className="text-gold-gradient">ساحل البحر الأحمر.</span>
               </h2>
               <div className="divider-gold mb-6" />
@@ -1237,7 +1238,7 @@ export default function HomeAr() {
       <Section className="section-padding bg-navy-900">
         <div className="container mx-auto px-4 text-center">
           <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>المطور</p>
-          <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6" style={arFont}>مبني على أساس من الثقة</h2>
+          <h2 className="font-serif text-4xl md:text-5xl text-cream-50 mb-6" style={headingFont}>مبني على أساس من الثقة</h2>
           <div className="divider-gold max-w-xs mx-auto mb-10" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             {[
@@ -1267,7 +1268,7 @@ export default function HomeAr() {
         </div>
         <div className="relative z-10 container mx-auto px-4 text-center">
           <p className="text-xs tracking-[0.2em] uppercase text-gold-400 mb-3" style={arFont}>31 مارس 2026 · القاهرة</p>
-          <h2 className="font-serif text-4xl md:text-6xl text-cream-50 mb-4 leading-tight" style={arFont}>
+          <h2 className="font-serif text-4xl md:text-6xl text-cream-50 mb-4 leading-tight" style={headingFont}>
             دعوتك<br />
             <span className="text-shimmer">في انتظارك</span>
           </h2>
