@@ -570,6 +570,10 @@ export default function Home() {
             currency: 'EGP',
           });
         }
+        // Fire Meta Pixel Lead event
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead');
+        }
       } catch (e) { /* silent */ }
     },
     onError: (err: unknown) => {
@@ -655,6 +659,10 @@ export default function Home() {
                 value: 1.0,
                 currency: 'EGP',
               });
+            }
+            // Fire Meta Pixel Contact event
+            if (typeof window !== 'undefined' && (window as any).fbq) {
+              (window as any).fbq('track', 'Contact');
             }
           } catch (e) { /* silent */ }
         }}
